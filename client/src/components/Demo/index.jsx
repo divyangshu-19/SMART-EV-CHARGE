@@ -11,20 +11,58 @@ import NoticeWrongNetwork from "./NoticeWrongNetwork";
 function Demo() {
   const { state } = useEth();
   const [value, setValue] = useState("?");
+  const [arrayValues, setArrayValues] = useState([]);
+  const [inputValue, setInputValue] = useState("");
+
+  const readArray = async () => {
+    const values = await state.contract.methods.getValues().call({ from: state.accounts[0] });
+    setArrayValues(values);
+  };
+  
+  const pushValue = async () => {
+    if (inputValue === "") {
+      alert("Please enter a value to push.");
+      return;
+    }
+    const newValue = parseInt(inputValue);
+    await state.contract.methods.pushValue(newValue).send({ from: state.accounts[0] });
+    setInputValue("");
+    readArray(); // Refresh array values after pushing a new one
+  };
 
   const demo =
     <>
-      <Cta />
+      {/* <Cta /> */}
       <div className="contract-container">
         <Contract value={value} />
         <ContractBtns setValue={setValue} />
       </div>
-      <Desc />
+      <hr />
+      {/* New Section */}
+      <div>
+        <h3>Array Values</h3>
+        <div>
+          {arrayValues.join(", ")}
+        </div>
+        <input
+          type="text"
+          placeholder="Enter a value"
+          value={inputValue}
+          onChange={e => setInputValue(e.target.value)}
+        />
+        <button onClick={pushValue}>Push Value</button>
+      </div>
+      <hr />
+      <button onClick={readArray}>Read Array</button>
+      {/* <Desc /> */}
     </>;
+
+
+
 
   return (
     <div className="demo">
-      <Title />
+      {/* <Title /> */}
       {
         !state.artifact ? <NoticeNoArtifact /> :
           !state.contract ? <NoticeWrongNetwork /> :

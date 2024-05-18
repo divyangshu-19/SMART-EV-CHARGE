@@ -9,13 +9,13 @@ function App() {
     <EthProvider>
       <div id="App">
         <div className="container">
-          <Intro />
-          <hr />
-          <Setup />
+          {/* <Intro /> */}
+          {/* <hr /> */}
+          {/* <Setup /> */}
           <hr />
           <Demo />
           <hr />
-          <Footer />
+          {/* <Footer /> */}
         </div>
       </div>
     </EthProvider>
