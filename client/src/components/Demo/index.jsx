@@ -1,10 +1,7 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useEth from "../../contexts/EthContext/useEth";
-import Title from "./Title";
-import Cta from "./Cta";
 import Contract from "./Contract";
 import ContractBtns from "./ContractBtns";
-import Desc from "./Desc";
 import NoticeNoArtifact from "./NoticeNoArtifact";
 import NoticeWrongNetwork from "./NoticeWrongNetwork";
 
@@ -13,12 +10,58 @@ function Demo() {
   const [value, setValue] = useState("?");
   const [arrayValues, setArrayValues] = useState([]);
   const [inputValue, setInputValue] = useState("");
+  const [formData, setFormData] = useState({
+    name: "",
+    availableElectricity: "",
+    sellingPrice: "",
+    providerAddress: "",
+    walletAddress: ""
+  });
+
+  useEffect(() => {
+    readArray();
+  }, []); // Load array values on component mount
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await state.contract.methods
+      .addProvider(
+        formData.name,
+        parseInt(formData.availableElectricity),
+        parseInt(formData.sellingPrice),
+        formData.providerAddress,
+        formData.walletAddress
+      )
+      .send({ from: state.accounts[0] });
+    setFormData({
+      name: "",
+      availableElectricity: "",
+      sellingPrice: "",
+      providerAddress: "",
+      walletAddress: ""
+    });
+    readArray(); // Refresh array values after adding a new provider
+  };
 
   const readArray = async () => {
-    const values = await state.contract.methods.getValues().call({ from: state.accounts[0] });
+    const count = await state.contract.methods.getProvidersCount().call({
+      from: state.accounts[0]
+    });
+    const values = [];
+    for (let i = 0; i < count; i++) {
+      const provider = await state.contract.methods.getProvider(i).call({
+        from: state.accounts[0]
+      });
+      values.push(provider);
+    }
     setArrayValues(values);
   };
-  
+
   const pushValue = async () => {
     if (inputValue === "") {
       alert("Please enter a value to push.");
@@ -32,42 +75,74 @@ function Demo() {
 
   const demo =
     <>
-      {/* <Cta /> */}
       <div className="contract-container">
         <Contract value={value} />
         <ContractBtns setValue={setValue} />
       </div>
       <hr />
-      {/* New Section */}
       <div>
         <h3>Array Values</h3>
-        <div>
-          {arrayValues.join(", ")}
-        </div>
-        <input
-          type="text"
-          placeholder="Enter a value"
-          value={inputValue}
-          onChange={e => setInputValue(e.target.value)}
-        />
-        <button onClick={pushValue}>Push Value</button>
+        <div>{arrayValues.join(", ")}</div>
+      </div>
+      <hr />
+      <div>
+        <h3>Add Provider Information</h3>
+        <form onSubmit={handleSubmit}>
+          <label>
+            Name:
+            <input
+              type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Available Electricity:
+            <input
+              type="number"
+              name="availableElectricity"
+              value={formData.availableElectricity}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Selling Price:
+            <input
+              type="number"
+              name="sellingPrice"
+              value={formData.sellingPrice}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Provider Address:
+            <input
+              type="text"
+              name="providerAddress"
+              value={formData.providerAddress}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Wallet Address:
+            <input
+              type="text"
+              name="walletAddress"
+              value={formData.walletAddress}
+              onChange={handleChange}
+            />
+          </label>
+          <button type="submit">Add Provider</button>
+        </form>
       </div>
       <hr />
       <button onClick={readArray}>Read Array</button>
-      {/* <Desc /> */}
     </>;
-
-
-
 
   return (
     <div className="demo">
-      {/* <Title /> */}
-      {
-        !state.artifact ? <NoticeNoArtifact /> :
-          !state.contract ? <NoticeWrongNetwork /> :
-            demo
-      }
+      { !state.artifact ? <NoticeNoArtifact /> : !state.contract ? <NoticeWrongNetwork /> : demo }
     </div>
   );
 }
