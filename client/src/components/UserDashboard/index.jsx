@@ -92,6 +92,7 @@ function UserDashboard() {
               <p>Selling Price: {provider.sellingPrice}</p>
               <p>Physical Address: {provider.physicalAddress}</p>
               <p>Wallet Address: {provider.walletAddress}</p>
+              <p>Perks: {provider.perks}</p>
               <hr />
             </div>
           ))}

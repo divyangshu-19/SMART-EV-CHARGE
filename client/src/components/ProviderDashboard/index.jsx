@@ -16,7 +16,8 @@ function ProviderDashboard() {
     availableElectricity: "",
     sellingPrice: "",
     physicalAddress: "",
-    walletAddress: ""
+    walletAddress: "",
+    perks:""
   });
 
   useEffect(() => {
@@ -38,7 +39,8 @@ function ProviderDashboard() {
         parseInt(formData.availableElectricity),
         parseInt(formData.sellingPrice),
         formData.physicalAddress,
-        formData.walletAddress
+        formData.walletAddress,
+        formData.perks
       )
       .send({ from: state.accounts[0] });
     setFormData({
@@ -48,7 +50,8 @@ function ProviderDashboard() {
       availableElectricity: "",
       sellingPrice: "",
       physicalAddress: "",
-      walletAddress: ""
+      walletAddress: "",
+      perks:""
     });
     readArray(); // Refresh array values after adding a new provider
   };
@@ -137,6 +140,15 @@ function ProviderDashboard() {
               onChange={handleChange}
             />
           </label>
+          <label>
+            Perks:
+            <input
+              type="text"
+              name="perks"
+              value={formData.perks}
+              onChange={handleChange}
+            />
+          </label>
           <button type="submit">Add Provider</button>
         </form>
       </div>
@@ -153,6 +165,7 @@ function ProviderDashboard() {
             <p>Selling Price: {provider.sellingPrice}</p>
             <p>Physical Address: {provider.physicalAddress}</p>
             <p>Wallet Address: {provider.walletAddress}</p>
+            <p>Perks: {provider.perks}</p>
             <hr />
           </div>
         ))}
