@@ -1,4 +1,3 @@
-// ProviderDashboard.jsx
 import { useState, useEffect } from "react";
 import useEth from "../../contexts/EthContext/useEth";
 import NoticeNoArtifact from "./NoticeNoArtifact";
@@ -17,7 +16,14 @@ function ProviderDashboard() {
     sellingPrice: "",
     physicalAddress: "",
     walletAddress: "",
-    perks:""
+    perks: ""
+  });
+  const [showStatus, setShowStatus] = useState(false);
+  const [providerStatus, setProviderStatus] = useState({
+    currentCharge: '',
+    sellingRate: '',
+    estimatedEarnings: '',
+    statusMessage: 'Waiting for a user'
   });
 
   useEffect(() => {
@@ -43,6 +49,7 @@ function ProviderDashboard() {
         formData.perks
       )
       .send({ from: state.accounts[0] });
+
     setFormData({
       name: "",
       businessName: "",
@@ -51,9 +58,12 @@ function ProviderDashboard() {
       sellingPrice: "",
       physicalAddress: "",
       walletAddress: "",
-      perks:""
+      perks: ""
     });
+
     readArray(); // Refresh array values after adding a new provider
+    fetchProviderStatus(); // Fetch the latest provider status
+    setShowStatus(true); // Show the status section
   };
 
   const readArray = async () => {
@@ -70,6 +80,33 @@ function ProviderDashboard() {
     setArrayValues(values);
   };
 
+  const fetchProviderStatus = async () => {
+    // Assuming we're interested in the status of the last added provider
+    const index = (await state.contract.methods.getProvidersCount().call({
+      from: state.accounts[0]
+    })) - 1;
+
+    if (index >= 0) {
+      const provider = await state.contract.methods.getProvider(index).call({
+        from: state.accounts[0]
+      });
+
+      const currentCharge = await state.contract.methods.getCurrentCharge(index).call({
+        from: state.accounts[0]
+      });
+
+      const sellingRate = provider[4]; // sellingPrice is the 5th element in the provider tuple
+      const estimatedEarnings = currentCharge * sellingRate;
+
+      setProviderStatus({
+        currentCharge: currentCharge,
+        sellingRate: sellingRate,
+        estimatedEarnings: estimatedEarnings,
+        statusMessage: 'Waiting for a user'
+      });
+    }
+  };
+
   const ProviderDashboardContent = (
     <>
       <div>
@@ -82,6 +119,7 @@ function ProviderDashboard() {
               name="name"
               value={formData.name}
               onChange={handleChange}
+              required
             />
           </label>
           <label>
@@ -95,7 +133,7 @@ function ProviderDashboard() {
           </label>
           <label>
             Area/Region:
-            <select name="area" value={formData.area} onChange={handleChange}>
+            <select name="area" value={formData.area} onChange={handleChange} required>
               <option value="">Select Region</option>
               {regions.map((region, index) => (
                 <option key={index} value={region}>
@@ -111,6 +149,7 @@ function ProviderDashboard() {
               name="availableElectricity"
               value={formData.availableElectricity}
               onChange={handleChange}
+              required
             />
           </label>
           <label>
@@ -120,6 +159,7 @@ function ProviderDashboard() {
               name="sellingPrice"
               value={formData.sellingPrice}
               onChange={handleChange}
+              required
             />
           </label>
           <label>
@@ -129,6 +169,7 @@ function ProviderDashboard() {
               name="physicalAddress"
               value={formData.physicalAddress}
               onChange={handleChange}
+              required
             />
           </label>
           <label>
@@ -138,6 +179,7 @@ function ProviderDashboard() {
               name="walletAddress"
               value={formData.walletAddress}
               onChange={handleChange}
+              required
             />
           </label>
           <label>
@@ -170,6 +212,15 @@ function ProviderDashboard() {
           </div>
         ))}
       </div>
+      {showStatus && (
+        <div>
+          <h2>Provider Current Status</h2>
+          <p>Current Charge: {providerStatus.currentCharge}</p>
+          <p>Selling Rate: {providerStatus.sellingRate}</p>
+          <p>Estimated Earnings: {providerStatus.estimatedEarnings}</p>
+          <p>{providerStatus.statusMessage}</p>
+        </div>
+      )}
     </>
   );
 

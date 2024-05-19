@@ -37,6 +37,10 @@ contract SimpleStorage {
         });
         providers.push(newProvider);
     }
+    
+     function getCurrentCharge(uint _index) public view returns (uint) {
+        return providers[_index].availableElectricity;
+    }
 
     function getProvidersCount() public view returns (uint256) {
         return providers.length;
