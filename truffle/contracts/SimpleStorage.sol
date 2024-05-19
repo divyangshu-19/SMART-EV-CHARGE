@@ -43,5 +43,8 @@ contract SimpleStorage {
         require(index < providers.length, "Provider index out of bounds");
         return providers[index];
     }
-    
+     // New function to calculate total cost
+    function calculateTotalCost(uint256 units, uint256 pricePerUnit) public pure returns (uint256) {
+        return units * pricePerUnit;
+    }
 }
