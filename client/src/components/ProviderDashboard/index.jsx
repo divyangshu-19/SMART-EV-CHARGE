@@ -1,16 +1,21 @@
+// ProviderDashboard.jsx
 import { useState, useEffect } from "react";
 import useEth from "../../contexts/EthContext/useEth";
 import NoticeNoArtifact from "./NoticeNoArtifact";
 import NoticeWrongNetwork from "./NoticeWrongNetwork";
 
-function ProviderDashbord() {
+const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
+
+function ProviderDashboard() {
   const { state } = useEth();
   const [arrayValues, setArrayValues] = useState([]);
   const [formData, setFormData] = useState({
     name: "",
+    businessName: "",
+    area: "",
     availableElectricity: "",
     sellingPrice: "",
-    providerAddress: "",
+    physicalAddress: "",
     walletAddress: ""
   });
 
@@ -28,17 +33,21 @@ function ProviderDashbord() {
     await state.contract.methods
       .addProvider(
         formData.name,
+        formData.businessName,
+        formData.area,
         parseInt(formData.availableElectricity),
         parseInt(formData.sellingPrice),
-        formData.providerAddress,
+        formData.physicalAddress,
         formData.walletAddress
       )
       .send({ from: state.accounts[0] });
     setFormData({
       name: "",
+      businessName: "",
+      area: "",
       availableElectricity: "",
       sellingPrice: "",
-      providerAddress: "",
+      physicalAddress: "",
       walletAddress: ""
     });
     readArray(); // Refresh array values after adding a new provider
@@ -58,7 +67,7 @@ function ProviderDashbord() {
     setArrayValues(values);
   };
 
-  const ProviderDashbord =
+  const ProviderDashboardContent = (
     <>
       <div>
         <h3>Provider Information</h3>
@@ -71,6 +80,26 @@ function ProviderDashbord() {
               value={formData.name}
               onChange={handleChange}
             />
+          </label>
+          <label>
+            Business Name:
+            <input
+              type="text"
+              name="businessName"
+              value={formData.businessName}
+              onChange={handleChange}
+            />
+          </label>
+          <label>
+            Area/Region:
+            <select name="area" value={formData.area} onChange={handleChange}>
+              <option value="">Select Region</option>
+              {regions.map((region, index) => (
+                <option key={index} value={region}>
+                  {region}
+                </option>
+              ))}
+            </select>
           </label>
           <label>
             Available Electricity:
@@ -91,11 +120,11 @@ function ProviderDashbord() {
             />
           </label>
           <label>
-            Provider Address:
+            Physical Address:
             <input
               type="text"
-              name="providerAddress"
-              value={formData.providerAddress}
+              name="physicalAddress"
+              value={formData.physicalAddress}
               onChange={handleChange}
             />
           </label>
@@ -118,21 +147,24 @@ function ProviderDashbord() {
         {arrayValues.map((provider, index) => (
           <div key={index}>
             <p>Name: {provider.name}</p>
+            <p>Business Name: {provider.businessName}</p>
+            <p>Area/Region: {provider.area}</p>
             <p>Available Electricity: {provider.availableElectricity}</p>
             <p>Selling Price: {provider.sellingPrice}</p>
-            <p>Provider Address: {provider.providerAddress}</p>
+            <p>Physical Address: {provider.physicalAddress}</p>
             <p>Wallet Address: {provider.walletAddress}</p>
             <hr />
           </div>
         ))}
       </div>
-    </>;
+    </>
+  );
 
   return (
-    <div className="ProviderDashbord">
-      { !state.artifact ? <NoticeNoArtifact /> : !state.contract ? <NoticeWrongNetwork /> : ProviderDashbord }
+    <div className="ProviderDashboard">
+      {!state.artifact ? <NoticeNoArtifact /> : !state.contract ? <NoticeWrongNetwork /> : ProviderDashboardContent}
     </div>
   );
 }
 
-export default ProviderDashbord;
+export default ProviderDashboard;
