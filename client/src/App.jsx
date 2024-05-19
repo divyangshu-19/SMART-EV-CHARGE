@@ -1,7 +1,7 @@
 import { EthProvider } from "./contexts/EthContext";
 import Intro from "./components/Intro/";
 import Setup from "./components/Setup";
-import Demo from "./components/Demo";
+import ProviderDashbord from "./components/ProviderDashbord";
 import Footer from "./components/Footer";
 
 function App() {
@@ -13,7 +13,7 @@ function App() {
           {/* <hr /> */}
           {/* <Setup /> */}
           <hr />
-          <Demo />
+          <ProviderDashbord />
           <hr />
           {/* <Footer /> */}
         </div>

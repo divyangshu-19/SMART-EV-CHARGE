@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import useEth from "../../contexts/EthContext/useEth";
-import Contract from "./Contract";
-import ContractBtns from "./ContractBtns";
 import NoticeNoArtifact from "./NoticeNoArtifact";
 import NoticeWrongNetwork from "./NoticeWrongNetwork";
 
-function Demo() {
+function ProviderDashbord() {
   const { state } = useEth();
-  const [value, setValue] = useState("?");
   const [arrayValues, setArrayValues] = useState([]);
-  const [inputValue, setInputValue] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     availableElectricity: "",
@@ -62,31 +58,10 @@ function Demo() {
     setArrayValues(values);
   };
 
-  const pushValue = async () => {
-    if (inputValue === "") {
-      alert("Please enter a value to push.");
-      return;
-    }
-    const newValue = parseInt(inputValue);
-    await state.contract.methods.pushValue(newValue).send({ from: state.accounts[0] });
-    setInputValue("");
-    readArray(); // Refresh array values after pushing a new one
-  };
-
-  const demo =
+  const ProviderDashbord =
     <>
-      <div className="contract-container">
-        <Contract value={value} />
-        <ContractBtns setValue={setValue} />
-      </div>
-      <hr />
       <div>
-        <h3>Array Values</h3>
-        <div>{arrayValues.join(", ")}</div>
-      </div>
-      <hr />
-      <div>
-        <h3>Add Provider Information</h3>
+        <h3>Provider Information</h3>
         <form onSubmit={handleSubmit}>
           <label>
             Name:
@@ -137,14 +112,27 @@ function Demo() {
         </form>
       </div>
       <hr />
-      <button onClick={readArray}>Read Array</button>
+      <button onClick={readArray}>Read Providers</button>
+      <div>
+        <h3>Providers List</h3>
+        {arrayValues.map((provider, index) => (
+          <div key={index}>
+            <p>Name: {provider.name}</p>
+            <p>Available Electricity: {provider.availableElectricity}</p>
+            <p>Selling Price: {provider.sellingPrice}</p>
+            <p>Provider Address: {provider.providerAddress}</p>
+            <p>Wallet Address: {provider.walletAddress}</p>
+            <hr />
+          </div>
+        ))}
+      </div>
     </>;
 
   return (
-    <div className="demo">
-      { !state.artifact ? <NoticeNoArtifact /> : !state.contract ? <NoticeWrongNetwork /> : demo }
+    <div className="ProviderDashbord">
+      { !state.artifact ? <NoticeNoArtifact /> : !state.contract ? <NoticeWrongNetwork /> : ProviderDashbord }
     </div>
   );
 }
 
-export default Demo;
+export default ProviderDashbord;
