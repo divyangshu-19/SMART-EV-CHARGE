@@ -43,13 +43,24 @@ contract SimpleStorage {
         require(index < providers.length, "Provider index out of bounds");
         return providers[index];
     }
-    // Function to get provider information based on region
-    function getProviderByRegion(string memory _area) public view returns (Provider memory) {
+
+    // Function to get all providers in the specified region
+    function getProvidersByRegion(string memory _area) public view returns (Provider[] memory) {
+        uint256 count = 0;
         for (uint256 i = 0; i < providers.length; i++) {
             if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area))) {
-                return providers[i];
+                count++;
             }
         }
-        revert("No provider found for the specified region");
+
+        Provider[] memory result = new Provider[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < providers.length; i++) {
+            if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area))) {
+                result[index] = providers[i];
+                index++;
+            }
+        }
+        return result;
     }
 }

@@ -14,7 +14,7 @@ function UserDashboard() {
     willingToPay: "",
     walletAddress: ""
   });
-  const [providerInfo, setProviderInfo] = useState(null);
+  const [providerInfo, setProviderInfo] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,13 +24,13 @@ function UserDashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const provider = await state.contract.methods
-        .getProviderByRegion(formData.area)
+      const providers = await state.contract.methods
+        .getProvidersByRegion(formData.area)
         .call();
-      setProviderInfo(provider);
+      setProviderInfo(providers);
     } catch (err) {
       console.error(err);
-      setProviderInfo(null); // No provider found or error occurred
+      setProviderInfo([]); // No providers found or error occurred
     }
   };
 
@@ -77,19 +77,24 @@ function UserDashboard() {
               onChange={handleChange}
             />
           </label>
-          <button type="submit">Find Provider</button>
+          <button type="submit">Find Providers</button>
         </form>
       </div>
-      {providerInfo && (
+      {providerInfo.length > 0 && (
         <div>
           <h3>Provider Information</h3>
-          <p>Name: {providerInfo.name}</p>
-          <p>Business Name: {providerInfo.businessName}</p>
-          <p>Area: {providerInfo.area}</p>
-          <p>Available Electricity: {providerInfo.availableElectricity}</p>
-          <p>Selling Price: {providerInfo.sellingPrice}</p>
-          <p>Physical Address: {providerInfo.physicalAddress}</p>
-          <p>Wallet Address: {providerInfo.walletAddress}</p>
+          {providerInfo.map((provider, index) => (
+            <div key={index}>
+              <p>Name: {provider.name}</p>
+              <p>Business Name: {provider.businessName}</p>
+              <p>Area: {provider.area}</p>
+              <p>Available Electricity: {provider.availableElectricity}</p>
+              <p>Selling Price: {provider.sellingPrice}</p>
+              <p>Physical Address: {provider.physicalAddress}</p>
+              <p>Wallet Address: {provider.walletAddress}</p>
+              <hr />
+            </div>
+          ))}
         </div>
       )}
     </>
