@@ -14,7 +14,7 @@ function UserDashboard() {
     willingToPay: "",
     walletAddress: ""
   });
-  const [totalCost, setTotalCost] = useState(null);
+  const [providerInfo, setProviderInfo] = useState(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,13 +23,15 @@ function UserDashboard() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const cost = await state.contract.methods
-      .calculateTotalCost(
-        parseInt(formData.electricityNeeded),
-        parseInt(formData.willingToPay)
-      )
-      .call();
-    setTotalCost(cost);
+    try {
+      const provider = await state.contract.methods
+        .getProviderByRegion(formData.area)
+        .call();
+      setProviderInfo(provider);
+    } catch (err) {
+      console.error(err);
+      setProviderInfo(null); // No provider found or error occurred
+    }
   };
 
   const UserDashboardContent = (
@@ -75,13 +77,19 @@ function UserDashboard() {
               onChange={handleChange}
             />
           </label>
-          <button type="submit">Calculate Total Cost</button>
+          <button type="submit">Find Provider</button>
         </form>
       </div>
-      {totalCost !== null && (
+      {providerInfo && (
         <div>
-          <h3>Total Cost</h3>
-          <p>{totalCost}</p>
+          <h3>Provider Information</h3>
+          <p>Name: {providerInfo.name}</p>
+          <p>Business Name: {providerInfo.businessName}</p>
+          <p>Area: {providerInfo.area}</p>
+          <p>Available Electricity: {providerInfo.availableElectricity}</p>
+          <p>Selling Price: {providerInfo.sellingPrice}</p>
+          <p>Physical Address: {providerInfo.physicalAddress}</p>
+          <p>Wallet Address: {providerInfo.walletAddress}</p>
         </div>
       )}
     </>

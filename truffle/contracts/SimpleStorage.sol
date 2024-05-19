@@ -43,8 +43,13 @@ contract SimpleStorage {
         require(index < providers.length, "Provider index out of bounds");
         return providers[index];
     }
-     // New function to calculate total cost
-    function calculateTotalCost(uint256 units, uint256 pricePerUnit) public pure returns (uint256) {
-        return units * pricePerUnit;
+    // Function to get provider information based on region
+    function getProviderByRegion(string memory _area) public view returns (Provider memory) {
+        for (uint256 i = 0; i < providers.length; i++) {
+            if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area))) {
+                return providers[i];
+            }
+        }
+        revert("No provider found for the specified region");
     }
 }
