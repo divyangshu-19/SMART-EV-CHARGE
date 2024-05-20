@@ -2,6 +2,7 @@ import { useState } from "react";
 import useEth from "../../contexts/EthContext/useEth";
 import NoticeNoArtifact from "../ProviderDashboard/NoticeNoArtifact";
 import NoticeWrongNetwork from "../ProviderDashboard/NoticeWrongNetwork";
+import ProviderList from "./ProviderList";
 
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
 
@@ -23,9 +24,16 @@ function UserDashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const providers = await state.contract.methods
-        .getProvidersByRegion(formData.area)
-        .call();
+      let providers;
+      if (formData.electricityNeeded) {
+        providers = await state.contract.methods
+          .getProvidersByRegionAndElectricity(formData.area, formData.electricityNeeded)
+          .call();
+      } else {
+        providers = await state.contract.methods
+          .getProvidersByRegion(formData.area)
+          .call();
+      }
       setProviderInfo(providers);
     } catch (err) {
       console.error(err);
@@ -90,23 +98,7 @@ function UserDashboard() {
         </form>
       </div>
       {providerInfo.length > 0 && (
-        <div>
-          <h3>Provider Information</h3>
-          {providerInfo.map((provider, index) => (
-            <div key={index}>
-              <p>Name: {provider.name}</p>
-              <p>Business Name: {provider.businessName}</p>
-              <p>Area: {provider.area}</p>
-              <p>Available Electricity: {provider.availableElectricity}</p>
-              <p>Selling Price: {provider.sellingPrice}</p>
-              <p>Physical Address: {provider.physicalAddress}</p>
-              <p>Wallet Address: {provider.walletAddress}</p>
-              <p>Perks: {provider.perks}</p>
-              <button onClick={() => handleChargeRequest(index)}>Charge Request</button>
-              <hr />
-            </div>
-          ))}
-        </div>
+        <ProviderList providerInfo={providerInfo} handleChargeRequest={handleChargeRequest} />
       )}
     </>
   );

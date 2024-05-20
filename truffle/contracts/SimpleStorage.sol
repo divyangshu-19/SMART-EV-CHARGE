@@ -70,6 +70,25 @@ contract SimpleStorage {
         return result;
     }
 
+    function getProvidersByRegionAndElectricity(string memory _area, uint256 _electricityNeeded) public view returns (Provider[] memory) {
+        uint256 count = 0;
+        for (uint256 i = 0; i < providers.length; i++) {
+            if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area)) && providers[i].availableElectricity >= _electricityNeeded) {
+                count++;
+            }
+        }
+
+        Provider[] memory result = new Provider[](count);
+        uint256 index = 0;
+        for (uint256 i = 0; i < providers.length; i++) {
+            if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area)) && providers[i].availableElectricity >= _electricityNeeded) {
+                result[index] = providers[i];
+                index++;
+            }
+        }
+        return result;
+    }
+
     function requestCharge(uint _index) public {
         require(_index < providers.length, "Provider index out of bounds");
         providerStatus[_index] = "Charge requested";
