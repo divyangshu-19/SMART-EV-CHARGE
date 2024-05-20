@@ -9,7 +9,7 @@ contract SimpleStorage {
         uint256 availableElectricity;
         uint256 sellingPrice;
         string physicalAddress;
-        string walletAddress;
+        address walletAddress;
         string perks;
     }
 
@@ -22,7 +22,6 @@ contract SimpleStorage {
         uint256 _availableElectricity,
         uint256 _sellingPrice,
         string memory _physicalAddress,
-        string memory _walletAddress,
         string memory _perks
     ) public {
         Provider memory newProvider = Provider({
@@ -32,7 +31,7 @@ contract SimpleStorage {
             availableElectricity: _availableElectricity,
             sellingPrice: _sellingPrice,
             physicalAddress: _physicalAddress,
-            walletAddress: _walletAddress,
+            walletAddress: msg.sender,
             perks:_perks
         });
         providers.push(newProvider);
