@@ -45,7 +45,7 @@ function ProviderDashboard() {
         parseInt(formData.availableElectricity),
         parseInt(formData.sellingPrice),
         formData.physicalAddress,
-        formData.walletAddress,
+        // formData.walletAddress,
         formData.perks
       )
       .send({ from: state.accounts[0] });
@@ -172,7 +172,7 @@ function ProviderDashboard() {
               required
             />
           </label>
-          <label>
+          {/* <label>
             Wallet Address:
             <input
               type="text"
@@ -181,7 +181,7 @@ function ProviderDashboard() {
               onChange={handleChange}
               required
             />
-          </label>
+          </label> */}
           <label>
             Perks:
             <input
