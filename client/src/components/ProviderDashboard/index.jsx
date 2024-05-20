@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import useEth from "../../contexts/EthContext/useEth";
 import NoticeNoArtifact from "./NoticeNoArtifact";
 import NoticeWrongNetwork from "./NoticeWrongNetwork";
+import ProviderStatus from "./ProviderStatus";
+import ProviderArray from "./ProviderArray";
 
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
 
@@ -62,7 +64,6 @@ function ProviderDashboard() {
     });
 
     readArray(); // Refresh array values after adding a new provider
-    fetchProviderStatus(); // Fetch the latest provider status
     setShowStatus(true); // Show the status section
   };
 
@@ -197,34 +198,14 @@ function ProviderDashboard() {
           <button type="submit">Add Provider</button>
         </form>
       </div>
-      <hr />
-      <button onClick={readArray}>Read Providers</button>
-      <div>
-        <h3>Providers List</h3>
-        {arrayValues.map((provider, index) => (
-          <div key={index}>
-            <p>Name: {provider.name}</p>
-            <p>Business Name: {provider.businessName}</p>
-            <p>Area/Region: {provider.area}</p>
-            <p>Available Electricity: {provider.availableElectricity}</p>
-            <p>Selling Price: {provider.sellingPrice}</p>
-            <p>Physical Address: {provider.physicalAddress}</p>
-            <p>Wallet Address: {provider.walletAddress}</p>
-            <p>Perks: {provider.perks}</p>
-            <p>Status: {provider.statusMessage}</p>
-            <hr />
-          </div>
-        ))}
-      </div>
       {showStatus && (
-        <div>
-          <h2>Provider Current Status</h2>
-          <p>Current Charge: {providerStatus.currentCharge}</p>
-          <p>Selling Rate: {providerStatus.sellingRate}</p>
-          <p>Estimated Earnings: {providerStatus.estimatedEarnings}</p>
-          <p>{providerStatus.statusMessage}</p>
-        </div>
+        <ProviderStatus
+          providerStatus={providerStatus}
+          fetchProviderStatus={fetchProviderStatus}
+        />
       )}
+      <hr />
+      <ProviderArray arrayValues={arrayValues} readArray={readArray} />
     </>
   );
 
