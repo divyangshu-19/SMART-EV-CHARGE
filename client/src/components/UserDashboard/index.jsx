@@ -1,4 +1,3 @@
-// UserDashboard.jsx
 import { useState } from "react";
 import useEth from "../../contexts/EthContext/useEth";
 import NoticeNoArtifact from "../ProviderDashboard/NoticeNoArtifact";
@@ -31,6 +30,16 @@ function UserDashboard() {
     } catch (err) {
       console.error(err);
       setProviderInfo([]); // No providers found or error occurred
+    }
+  };
+
+  const handleChargeRequest = async (index) => {
+    try {
+      await state.contract.methods.requestCharge(index).send({ from: state.accounts[0] });
+      alert("Charge request sent!");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to send charge request.");
     }
   };
 
@@ -93,6 +102,7 @@ function UserDashboard() {
               <p>Physical Address: {provider.physicalAddress}</p>
               <p>Wallet Address: {provider.walletAddress}</p>
               <p>Perks: {provider.perks}</p>
+              <button onClick={() => handleChargeRequest(index)}>Charge Request</button>
               <hr />
             </div>
           ))}

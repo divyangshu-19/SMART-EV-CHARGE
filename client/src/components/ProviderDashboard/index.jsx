@@ -75,7 +75,8 @@ function ProviderDashboard() {
       const provider = await state.contract.methods.getProvider(i).call({
         from: state.accounts[0]
       });
-      values.push(provider);
+      const statusMessage = await state.contract.methods.providerStatus(i).call();
+      values.push({ ...provider, statusMessage });
     }
     setArrayValues(values);
   };
@@ -98,11 +99,13 @@ function ProviderDashboard() {
       const sellingRate = provider[4]; // sellingPrice is the 5th element in the provider tuple
       const estimatedEarnings = currentCharge * sellingRate;
 
+      const statusMessage = await state.contract.methods.providerStatus(index).call();
+
       setProviderStatus({
         currentCharge: currentCharge,
         sellingRate: sellingRate,
         estimatedEarnings: estimatedEarnings,
-        statusMessage: 'Waiting for a user'
+        statusMessage: statusMessage
       });
     }
   };
@@ -208,6 +211,7 @@ function ProviderDashboard() {
             <p>Physical Address: {provider.physicalAddress}</p>
             <p>Wallet Address: {provider.walletAddress}</p>
             <p>Perks: {provider.perks}</p>
+            <p>Status: {provider.statusMessage}</p>
             <hr />
           </div>
         ))}

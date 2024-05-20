@@ -14,6 +14,7 @@ contract SimpleStorage {
     }
 
     Provider[] providers;
+    mapping(uint => string) public providerStatus;
 
     function addProvider(
         string memory _name,
@@ -32,12 +33,12 @@ contract SimpleStorage {
             sellingPrice: _sellingPrice,
             physicalAddress: _physicalAddress,
             walletAddress: msg.sender,
-            perks:_perks
+            perks: _perks
         });
         providers.push(newProvider);
     }
     
-     function getCurrentCharge(uint _index) public view returns (uint) {
+    function getCurrentCharge(uint _index) public view returns (uint) {
         return providers[_index].availableElectricity;
     }
 
@@ -50,7 +51,6 @@ contract SimpleStorage {
         return providers[index];
     }
 
-    // Function to get all providers in the specified region
     function getProvidersByRegion(string memory _area) public view returns (Provider[] memory) {
         uint256 count = 0;
         for (uint256 i = 0; i < providers.length; i++) {
@@ -68,5 +68,10 @@ contract SimpleStorage {
             }
         }
         return result;
+    }
+
+    function requestCharge(uint _index) public {
+        require(_index < providers.length, "Provider index out of bounds");
+        providerStatus[_index] = "Charge requested";
     }
 }
