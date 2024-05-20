@@ -121,7 +121,7 @@ function ProviderDashboard() {
               onChange={handleChange}
               required
             />
-          </label>
+          </label><br /><br />
           <label>
             Business Name:
             <input
@@ -130,7 +130,7 @@ function ProviderDashboard() {
               value={formData.businessName}
               onChange={handleChange}
             />
-          </label>
+          </label><br /><br />
           <label>
             Area/Region:
             <select name="area" value={formData.area} onChange={handleChange} required>
@@ -141,7 +141,7 @@ function ProviderDashboard() {
                 </option>
               ))}
             </select>
-          </label>
+          </label><br /><br />
           <label>
             Available Electricity:
             <input
@@ -151,7 +151,7 @@ function ProviderDashboard() {
               onChange={handleChange}
               required
             />
-          </label>
+          </label><br /><br />
           <label>
             Selling Price:
             <input
@@ -161,7 +161,7 @@ function ProviderDashboard() {
               onChange={handleChange}
               required
             />
-          </label>
+          </label><br /><br />
           <label>
             Physical Address:
             <input
@@ -171,7 +171,7 @@ function ProviderDashboard() {
               onChange={handleChange}
               required
             />
-          </label>
+          </label><br /><br />
           {/* <label>
             Wallet Address:
             <input
@@ -190,7 +190,7 @@ function ProviderDashboard() {
               value={formData.perks}
               onChange={handleChange}
             />
-          </label>
+          </label><br /><br />
           <button type="submit">Add Provider</button>
         </form>
       </div>
