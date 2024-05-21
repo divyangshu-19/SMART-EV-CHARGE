@@ -1,5 +1,5 @@
 // App.jsx
-import { useState } from "react";
+import React, { useState } from "react";
 import { EthProvider } from "./contexts/EthContext";
 import LandingPage from "./components/LandingPage";
 import ProviderDashboard from "./components/ProviderDashboard";
@@ -25,7 +25,8 @@ function App() {
   return (
     <EthProvider>
       <div id="App">
-        <div className="container">
+        <div > 
+          {/* className="container" */}
           {content}
         </div>
       </div>

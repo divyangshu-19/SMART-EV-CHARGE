@@ -124,7 +124,7 @@ function ProviderDashboard() {
           </label><br /><br />
           <label>
             Business Name:
-            <input
+            <input 
               type="text"
               name="businessName"
               value={formData.businessName}
