@@ -1,0 +1,21 @@
+[
+    {
+      "model": "Tesla Model S",
+      "capacity": 100
+    },
+    {
+      "model": "Nissan Leaf",
+      "capacity": 40
+    },
+    {
+      "model": "Chevrolet Bolt",
+      "capacity": 66
+    },
+    {
+        "model": "tata nexon",
+        "capacity": 1000
+      }
+
+    
+  ]
+  

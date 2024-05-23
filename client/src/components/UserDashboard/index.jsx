@@ -1,37 +1,80 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useEth from "../../contexts/EthContext/useEth";
 import NoticeNoArtifact from "../ProviderDashboard/NoticeNoArtifact";
 import NoticeWrongNetwork from "../ProviderDashboard/NoticeWrongNetwork";
+import evData from "../../data/evData.json"; // Import the EV data
 
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
 
 function UserDashboard() {
   const { state } = useEth();
   const [formData, setFormData] = useState({
-    area: "",
-    electricityNeeded: "",
-    willingToPay: "",
-    walletAddress: ""
+    evModel: "",
+    currentPercentage: "",
+    targetPercentage: "",
+    fullCharge: false,
+    area: ""
   });
-  const [providerInfo, setProviderInfo] = useState(null); // Changed to a single provider
-  const [providerIndex, setProviderIndex] = useState(null); // To store the index of the selected provider
+  const [calculatedWattage, setCalculatedWattage] = useState(null);
+  const [providerInfo, setProviderInfo] = useState(null);
+  const [providerIndex, setProviderIndex] = useState(null);
+
+  useEffect(() => {
+    if (formData.evModel && formData.currentPercentage && (formData.targetPercentage || formData.fullCharge)) {
+      calculateWattage();
+    }
+  }, [formData]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  const handleFullCharge = () => {
+    setFormData({ ...formData, targetPercentage: 100, fullCharge: true });
+  };
+
+  const calculateWattage = () => {
+    const selectedEV = evData.find(ev => ev.model === formData.evModel);
+    if (!selectedEV) {
+      setCalculatedWattage(null);
+      return;
+    }
+
+    const { capacity } = selectedEV;
+    const currentPercentage = parseInt(formData.currentPercentage);
+    const targetPercentage = formData.fullCharge ? 100 : parseInt(formData.targetPercentage);
+
+    if (isNaN(currentPercentage) || isNaN(targetPercentage)) {
+      setCalculatedWattage(null);
+      return;
+    }
+
+    const electricityNeeded = ((targetPercentage - currentPercentage) / 100) * capacity; // Convert kWh to Wh
+    setCalculatedWattage(electricityNeeded);
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!calculatedWattage) {
+      alert("Please fill in all required fields correctly.");
+      return;
+    }
+
     try {
       const result = await state.contract.methods
-        .getProviderWithLeastSellingPrice(formData.area, parseInt(formData.electricityNeeded))
+        .getProviderWithLeastSellingPrice(formData.area, calculatedWattage)
         .call();
       setProviderInfo(result[0]);
-      setProviderIndex(result[1]); // Store the index of the selected provider
+      setProviderIndex(result[1]);
     } catch (err) {
       console.error(err);
-      setProviderInfo(null); // No provider found or error occurred
+      if (err.message.includes("No providers found in this area")) {
+        alert("No providers found in the selected area. Please try a different area or add providers first.");
+      } else {
+        alert("An error occurred. Please try again.");
+      }
+      setProviderInfo(null);
       setProviderIndex(null);
     }
   };
@@ -54,6 +97,39 @@ function UserDashboard() {
         <h3>User Information</h3>
         <form onSubmit={handleSubmit}>
           <label>
+            Select EV Model:
+            <select name="evModel" value={formData.evModel} onChange={handleChange} required>
+              <option value="">Select EV</option>
+              {evData.map((ev, index) => (
+                <option key={index} value={ev.model}>
+                  {ev.model}
+                </option>
+              ))}
+            </select>
+          </label>
+          <label>
+            Current Battery Percentage:
+            <input
+              type="number"
+              name="currentPercentage"
+              value={formData.currentPercentage}
+              onChange={handleChange}
+              required
+            />
+          </label>
+          <label>
+            Target Battery Percentage:
+            <input
+              type="number"
+              name="targetPercentage"
+              value={formData.targetPercentage}
+              onChange={handleChange}
+              disabled={formData.fullCharge}
+              required={!formData.fullCharge}
+            />
+            <button type="button" onClick={handleFullCharge}>Full Charge</button>
+          </label>
+          <label>
             Area/Region:
             <select name="area" value={formData.area} onChange={handleChange} required>
               <option value="">Select Region</option>
@@ -64,38 +140,13 @@ function UserDashboard() {
               ))}
             </select>
           </label>
-          <label>
-            Units of Electricity Needed:
-            <input
-              type="number"
-              name="electricityNeeded"
-              value={formData.electricityNeeded}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label>
-            Willing to Pay Per Unit:
-            <input
-              type="number"
-              name="willingToPay"
-              value={formData.willingToPay}
-              onChange={handleChange}
-              required
-            />
-          </label>
-          <label>
-            Wallet Address:
-            <input
-              type="text"
-              name="walletAddress"
-              value={formData.walletAddress}
-              onChange={handleChange}
-              required
-            />
-          </label>
           <button type="submit">Find Provider</button>
         </form>
+        {calculatedWattage !== null && (
+          <div>
+            <h4>Calculated Wattage: {calculatedWattage} Wh</h4>
+          </div>
+        )}
       </div>
       {providerInfo && (
         <div>
