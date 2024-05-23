@@ -25,7 +25,7 @@ function UserDashboard() {
     e.preventDefault();
     try {
       const result = await state.contract.methods
-        .getProviderWithLeastSellingPrice(formData.area)
+        .getProviderWithLeastSellingPrice(formData.area, parseInt(formData.electricityNeeded))
         .call();
       setProviderInfo(result[0]);
       setProviderIndex(result[1]); // Store the index of the selected provider

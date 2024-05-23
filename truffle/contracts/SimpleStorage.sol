@@ -51,13 +51,13 @@ contract SimpleStorage {
         return providers[index];
     }
 
-    function getProviderWithLeastSellingPrice(string memory _area) public view returns (Provider memory, uint) {
+    function getProviderWithLeastSellingPrice(string memory _area, uint256 _electricityNeeded) public view returns (Provider memory, uint) {
         uint lowestPriceIndex = providers.length;
         uint lowestPrice = type(uint).max;
 
         for (uint256 i = 0; i < providers.length; i++) {
             if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area))) {
-                if (providers[i].sellingPrice < lowestPrice) {
+                if (providers[i].sellingPrice < lowestPrice && providers[i].availableElectricity >= _electricityNeeded) {
                     lowestPrice = providers[i].sellingPrice;
                     lowestPriceIndex = i;
                 }
