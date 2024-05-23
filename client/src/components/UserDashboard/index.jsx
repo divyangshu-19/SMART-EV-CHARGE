@@ -13,7 +13,8 @@ function UserDashboard() {
     willingToPay: "",
     walletAddress: ""
   });
-  const [providerInfo, setProviderInfo] = useState([]);
+  const [providerInfo, setProviderInfo] = useState(null); // Changed to a single provider
+  const [providerIndex, setProviderIndex] = useState(null); // To store the index of the selected provider
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,19 +24,23 @@ function UserDashboard() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const providers = await state.contract.methods
-        .getProvidersByRegion(formData.area)
+      const result = await state.contract.methods
+        .getProviderWithLeastSellingPrice(formData.area)
         .call();
-      setProviderInfo(providers);
+      setProviderInfo(result[0]);
+      setProviderIndex(result[1]); // Store the index of the selected provider
     } catch (err) {
       console.error(err);
-      setProviderInfo([]); // No providers found or error occurred
+      setProviderInfo(null); // No provider found or error occurred
+      setProviderIndex(null);
     }
   };
 
-  const handleChargeRequest = async (index) => {
+  const handleChargeRequest = async () => {
+    if (providerIndex === null) return;
+
     try {
-      await state.contract.methods.requestCharge(index).send({ from: state.accounts[0] });
+      await state.contract.methods.requestCharge(providerIndex).send({ from: state.accounts[0] });
       alert("Charge request sent!");
     } catch (err) {
       console.error(err);
@@ -50,7 +55,7 @@ function UserDashboard() {
         <form onSubmit={handleSubmit}>
           <label>
             Area/Region:
-            <select name="area" value={formData.area} onChange={handleChange}>
+            <select name="area" value={formData.area} onChange={handleChange} required>
               <option value="">Select Region</option>
               {regions.map((region, index) => (
                 <option key={index} value={region}>
@@ -66,6 +71,7 @@ function UserDashboard() {
               name="electricityNeeded"
               value={formData.electricityNeeded}
               onChange={handleChange}
+              required
             />
           </label>
           <label>
@@ -75,6 +81,7 @@ function UserDashboard() {
               name="willingToPay"
               value={formData.willingToPay}
               onChange={handleChange}
+              required
             />
           </label>
           <label>
@@ -84,28 +91,27 @@ function UserDashboard() {
               name="walletAddress"
               value={formData.walletAddress}
               onChange={handleChange}
+              required
             />
           </label>
-          <button type="submit">Find Providers</button>
+          <button type="submit">Find Provider</button>
         </form>
       </div>
-      {providerInfo.length > 0 && (
+      {providerInfo && (
         <div>
           <h3>Provider Information</h3>
-          {providerInfo.map((provider, index) => (
-            <div key={index}>
-              <p>Name: {provider.name}</p>
-              <p>Business Name: {provider.businessName}</p>
-              <p>Area: {provider.area}</p>
-              <p>Available Electricity: {provider.availableElectricity}</p>
-              <p>Selling Price: {provider.sellingPrice}</p>
-              <p>Physical Address: {provider.physicalAddress}</p>
-              <p>Wallet Address: {provider.walletAddress}</p>
-              <p>Perks: {provider.perks}</p>
-              <button onClick={() => handleChargeRequest(index)}>Charge Request</button>
-              <hr />
-            </div>
-          ))}
+          <div>
+            <p>Name: {providerInfo.name}</p>
+            <p>Business Name: {providerInfo.businessName}</p>
+            <p>Area: {providerInfo.area}</p>
+            <p>Available Electricity: {providerInfo.availableElectricity}</p>
+            <p>Selling Price: {providerInfo.sellingPrice}</p>
+            <p>Physical Address: {providerInfo.physicalAddress}</p>
+            <p>Wallet Address: {providerInfo.walletAddress}</p>
+            <p>Perks: {providerInfo.perks}</p>
+            <button onClick={handleChargeRequest}>Charge Request</button>
+            <hr />
+          </div>
         </div>
       )}
     </>

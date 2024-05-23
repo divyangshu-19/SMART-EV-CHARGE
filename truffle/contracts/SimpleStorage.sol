@@ -37,7 +37,7 @@ contract SimpleStorage {
         });
         providers.push(newProvider);
     }
-    
+
     function getCurrentCharge(uint _index) public view returns (uint) {
         return providers[_index].availableElectricity;
     }
@@ -51,23 +51,21 @@ contract SimpleStorage {
         return providers[index];
     }
 
-    function getProvidersByRegion(string memory _area) public view returns (Provider[] memory) {
-        uint256 count = 0;
+    function getProviderWithLeastSellingPrice(string memory _area) public view returns (Provider memory, uint) {
+        uint lowestPriceIndex = providers.length;
+        uint lowestPrice = type(uint).max;
+
         for (uint256 i = 0; i < providers.length; i++) {
             if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area))) {
-                count++;
+                if (providers[i].sellingPrice < lowestPrice) {
+                    lowestPrice = providers[i].sellingPrice;
+                    lowestPriceIndex = i;
+                }
             }
         }
 
-        Provider[] memory result = new Provider[](count);
-        uint256 index = 0;
-        for (uint256 i = 0; i < providers.length; i++) {
-            if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area))) {
-                result[index] = providers[i];
-                index++;
-            }
-        }
-        return result;
+        require(lowestPriceIndex < providers.length, "No providers found in this area");
+        return (providers[lowestPriceIndex], lowestPriceIndex);
     }
 
     function requestCharge(uint _index) public {
