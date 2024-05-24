@@ -1,0 +1,282 @@
+/* .UserDashboard {
+    display: flex;
+    height: 100vh;
+  }
+  
+  .UserDashboard.dark-mode {
+    background-color: #333;
+    color: #fff;
+  }
+  
+  .sidebar {
+    width: 250px;
+    background-color: #f8f9fa;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border-right: 1px solid #dee2e6;
+  }
+  
+  .UserDashboard.dark-mode .sidebar {
+    background-color: #444;
+    color: #fff;
+  }
+  
+  .user-info {
+    margin-bottom: 20px;
+  }
+  
+  .sidebar ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .sidebar ul li {
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  
+  .bottom-options {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bottom-options button {
+    margin: 10px 0;
+    cursor: pointer;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+  }
+  
+  .form-section, .provider-info, .recent-activity {
+    margin-bottom: 20px;
+  }
+  
+  .provider-card {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+  }
+  
+  .UserDashboard.dark-mode .provider-card {
+    background-color: #555;
+    border: 1px solid #777;
+  }
+  
+  .recent-activity ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .recent-activity li {
+    background-color: #fff;
+    padding: 10px;
+    margin-bottom: 5px;
+    border: 1px solid #dee2e6;
+    border-radius: 4px;
+  }
+  
+  .UserDashboard.dark-mode .recent-activity li {
+    background-color: #555;
+    border: 1px solid #777;
+  }
+   */
+
+
+
+
+
+
+
+   .UserDashboard {
+    display: flex;
+  }
+  
+  .sidebar {
+    width: 200px;
+    padding: 20px;
+    background-color: #063261; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    color: white;
+    overflow-y: auto;
+  }
+  
+  .user-info {
+    margin-bottom: 20px;
+  }
+  
+  .menu {
+    flex-grow: 1;
+  }
+  
+  .menu li {
+    list-style: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .menu li.active,
+  .menu li:hover {
+    background-color: white;
+    border-radius: 5rem;
+    color: black;
+  }
+  
+  .bottom-options {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .bottom-options button {
+    margin-top: 10px;
+  }
+  
+  .content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: rgb(245, 247, 248);
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  
+  }
+  
+  .form-section.card,
+  .payment-section.card {
+    margin-top: 10px;
+    
+    background-color: #063261;
+  
+    color: rgb(250, 243, 243); 
+
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+   
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+
+  .form-section.card form,
+.payment-section.card form {
+  width: 100%;
+}
+
+.form-section.card label,
+.payment-section.card label {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  width: 100%;
+}
+
+
+.form-section.card input,
+.form-section.card select,
+.payment-section.card input,
+.payment-section.card select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.form-section.card button,
+.payment-section.card button,
+.provider-info button {
+  align-self: center;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  background-color: #edb04d;
+  color: white;
+  cursor: pointer;
+}
+
+.provider-info {
+  width: 100%;
+  max-width: 800px;
+  margin-top: 20px;
+}
+
+.provider-card {
+  background-color: #063261;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.provider-card p {
+  margin: 0;
+}
+
+
+
+.UserDashboard.dark-mode {
+  background-color: #333;
+  color: #fff;
+}
+
+.UserDashboard.dark-mode .sidebar {
+  background-color: #444;
+  color: #fff;
+
+}
+
+.dark-mode .d-button{
+  background-color: rgb(6, 6, 6);
+  color: #fff;
+}
+  
+.dark-mode .content {
+    background-color: #343a40;
+    color: white;
+  }
+
+.dark-mode .form-section.card button,
+.payment-section.card button{
+  background-color: rgb(6, 6, 6);
+}
+  
+  .dark-mode .form-section.card,
+  .dark-mode .payment-section.card {
+    background-color: #495057;
+    color: white;
+  }
+  
+  
+  .dark-mode .provider-card {
+    background-color: #495057;
+    color: white;
+  }
+  
+
+  
+  h3 {
+    margin-top: 5px;
+  } 
+  
+
+
+
+
+
