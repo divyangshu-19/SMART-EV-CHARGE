@@ -20,7 +20,8 @@ function UserDashboard() {
   const [calculatedWattage, setCalculatedWattage] = useState(null);
   const [providerInfo, setProviderInfo] = useState(null);
   const [providerIndex, setProviderIndex] = useState(null);
-  const [proceedToPayment, setProceedToPayment] = useState(false); // New state
+  const [proceedToPayment, setProceedToPayment] = useState(false);
+  const [paymentComplete, setPaymentComplete] = useState(false); // New state
 
   useEffect(() => {
     if (formData.evModel && formData.currentPercentage && (formData.targetPercentage || formData.fullCharge)) {
@@ -95,8 +96,7 @@ function UserDashboard() {
 
   const handlePaymentComplete = () => {
     alert("Payment Complete!");
-    handleCancel();
-    setProceedToPayment(false);
+    setPaymentComplete(true); // Set payment complete flag
   };
 
   const UserDashboardContent = (
@@ -179,6 +179,11 @@ function UserDashboard() {
           calculatedWattage={calculatedWattage}
           onPaymentComplete={handlePaymentComplete}
         />
+      )}
+      {paymentComplete && (
+        <div>
+          <h4>Payment successful!</h4>
+        </div>
       )}
     </>
   );
