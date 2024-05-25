@@ -37,6 +37,9 @@ function ProviderDashboard() {
     setFormData({ ...formData, [name]: value });
   };
 
+  // array -no style
+  // provider style - next screen - card format
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     await state.contract.methods

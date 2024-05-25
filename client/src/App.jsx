@@ -25,7 +25,8 @@ function App() {
   return (
     <EthProvider>
       <div id="App">
-        <div className="container">
+        <div >
+        {/* className="container" */}
           {content}
         </div>
       </div>
