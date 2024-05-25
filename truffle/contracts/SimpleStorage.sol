@@ -13,8 +13,15 @@ contract SimpleStorage {
         string perks;
     }
 
+    struct UserRequest {
+        string evModel;
+        uint256 electricityNeeded;
+        uint256 amountPaid;
+    }
+
     Provider[] providers;
     mapping(uint => string) public providerStatus;
+    mapping(uint => UserRequest) public userRequests;
 
     function addProvider(
         string memory _name,
@@ -36,10 +43,6 @@ contract SimpleStorage {
             perks: _perks
         });
         providers.push(newProvider);
-    }
-
-    function getCurrentCharge(uint _index) public view returns (uint) {
-        return providers[_index].availableElectricity;
     }
 
     function getProvidersCount() public view returns (uint256) {
@@ -68,8 +71,15 @@ contract SimpleStorage {
         return (providers[lowestPriceIndex], lowestPriceIndex);
     }
 
-    function requestCharge(uint _index) public {
+    function requestCharge(uint _index, string memory _evModel, uint256 _electricityNeeded, uint256 _amountPaid) public {
         require(_index < providers.length, "Provider index out of bounds");
+        require(providers[_index].availableElectricity >= _electricityNeeded, "Not enough available electricity");
+        providers[_index].availableElectricity -= _electricityNeeded;
         providerStatus[_index] = "Charge requested";
+        userRequests[_index] = UserRequest({
+            evModel: _evModel,
+            electricityNeeded: _electricityNeeded,
+            amountPaid: _amountPaid
+        });
     }
 }

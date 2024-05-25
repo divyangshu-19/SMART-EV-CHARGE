@@ -1,4 +1,3 @@
-// ProviderStatus.jsx
 import React, { useEffect } from "react";
 
 function ProviderStatus({ providerStatus, fetchProviderStatus }) {
@@ -12,7 +11,19 @@ function ProviderStatus({ providerStatus, fetchProviderStatus }) {
       <p>Current Charge: {providerStatus.currentCharge}</p>
       <p>Selling Rate: {providerStatus.sellingRate}</p>
       <p>Estimated Earnings: {providerStatus.estimatedEarnings}</p>
-      <p>{providerStatus.statusMessage}</p>
+      <p>Status: {providerStatus.statusMessage}</p>
+      {providerStatus.recentTransactions && providerStatus.recentTransactions.length > 0 && (
+        <>
+          <h3>Recent Transactions</h3>
+          <ul>
+            {providerStatus.recentTransactions.map((transaction, index) => (
+              <li key={index}>
+                EV Model: {transaction.evModel} - Bought {transaction.electricityNeeded} kWh for {transaction.sellingPrice} per kWh - Total: {transaction.amountPaid}
+              </li>
+            ))}
+          </ul>
+        </>
+      )}
     </div>
   );
 }

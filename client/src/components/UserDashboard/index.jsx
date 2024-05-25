@@ -94,10 +94,27 @@ function UserDashboard() {
     setProviderIndex(null);
   };
 
-  const handlePaymentComplete = () => {
-    alert("Payment Complete!");
-    setPaymentComplete(true); // Set payment complete flag
+  // const handlePaymentComplete = () => {
+  //   alert("Payment Complete!");
+  //   setPaymentComplete(true); // Set payment complete flag
+  // };
+
+  const handlePaymentComplete = async () => {
+    setPaymentComplete(true);
+    if (providerIndex === null) return;
+  
+    const amountPaid = calculatedWattage * providerInfo.sellingPrice;
+  
+    try {
+      await state.contract.methods.requestCharge(providerIndex, formData.evModel, calculatedWattage, amountPaid).send({ from: state.accounts[0] });
+      alert("Payment complete! Proceed to your destination and get your EV charged.");
+    } catch (err) {
+      console.error(err);
+      alert("Failed to complete payment.");
+    }
   };
+  
+
 
   const UserDashboardContent = (
     <>

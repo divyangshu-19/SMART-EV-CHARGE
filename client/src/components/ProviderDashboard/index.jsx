@@ -25,7 +25,8 @@ function ProviderDashboard() {
     currentCharge: '',
     sellingRate: '',
     estimatedEarnings: '',
-    statusMessage: 'Waiting for a user'
+    statusMessage: 'Waiting for a user',
+    recentTransactions: []
   });
 
   useEffect(() => {
@@ -47,7 +48,6 @@ function ProviderDashboard() {
         parseInt(formData.availableElectricity),
         parseInt(formData.sellingPrice),
         formData.physicalAddress,
-        // formData.walletAddress,
         formData.perks
       )
       .send({ from: state.accounts[0] });
@@ -83,7 +83,6 @@ function ProviderDashboard() {
   };
 
   const fetchProviderStatus = async () => {
-    // Assuming we're interested in the status of the last added provider
     const index = (await state.contract.methods.getProvidersCount().call({
       from: state.accounts[0]
     })) - 1;
@@ -93,20 +92,30 @@ function ProviderDashboard() {
         from: state.accounts[0]
       });
 
-      const currentCharge = await state.contract.methods.getCurrentCharge(index).call({
-        from: state.accounts[0]
-      });
-
+      const currentCharge = provider[3]; // Assuming availableElectricity is the 4th element in the provider tuple
       const sellingRate = provider[4]; // sellingPrice is the 5th element in the provider tuple
       const estimatedEarnings = currentCharge * sellingRate;
 
       const statusMessage = await state.contract.methods.providerStatus(index).call();
+      let recentTransactions = [];
+
+      if (statusMessage === "Charge requested") {
+        const userRequest = await state.contract.methods.userRequests(index).call();
+
+        recentTransactions.push({
+          evModel: userRequest.evModel,
+          electricityNeeded: userRequest.electricityNeeded,
+          sellingPrice: sellingRate,
+          amountPaid: userRequest.amountPaid
+        });
+      }
 
       setProviderStatus({
         currentCharge: currentCharge,
         sellingRate: sellingRate,
         estimatedEarnings: estimatedEarnings,
-        statusMessage: statusMessage
+        statusMessage: statusMessage,
+        recentTransactions: recentTransactions
       });
     }
   };
