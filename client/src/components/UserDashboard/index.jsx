@@ -3,21 +3,24 @@ import useEth from "../../contexts/EthContext/useEth";
 import NoticeNoArtifact from "../ProviderDashboard/NoticeNoArtifact";
 import NoticeWrongNetwork from "../ProviderDashboard/NoticeWrongNetwork";
 import evData from "../../data/evData.json"; // Import the EV data
+import PaymentPage from "./PaymentPage"; // Import the PaymentPage component
 
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
 
 function UserDashboard() {
   const { state } = useEth();
-  const [formData, setFormData] = useState({
+  const initialFormData = {
     evModel: "",
     currentPercentage: "",
     targetPercentage: "",
     fullCharge: false,
     area: ""
-  });
+  };
+  const [formData, setFormData] = useState(initialFormData);
   const [calculatedWattage, setCalculatedWattage] = useState(null);
   const [providerInfo, setProviderInfo] = useState(null);
   const [providerIndex, setProviderIndex] = useState(null);
+  const [proceedToPayment, setProceedToPayment] = useState(false); // New state
 
   useEffect(() => {
     if (formData.evModel && formData.currentPercentage && (formData.targetPercentage || formData.fullCharge)) {
@@ -79,16 +82,21 @@ function UserDashboard() {
     }
   };
 
-  const handleChargeRequest = async () => {
-    if (providerIndex === null) return;
+  const handleProceedWithProvider = () => {
+    setProceedToPayment(true);
+  };
 
-    try {
-      await state.contract.methods.requestCharge(providerIndex).send({ from: state.accounts[0] });
-      alert("Charge request sent!");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to send charge request.");
-    }
+  const handleCancel = () => {
+    setFormData(initialFormData);
+    setCalculatedWattage(null);
+    setProviderInfo(null);
+    setProviderIndex(null);
+  };
+
+  const handlePaymentComplete = () => {
+    alert("Payment Complete!");
+    handleCancel();
+    setProceedToPayment(false);
   };
 
   const UserDashboardContent = (
@@ -148,7 +156,7 @@ function UserDashboard() {
           </div>
         )}
       </div>
-      {providerInfo && (
+      {providerInfo && !proceedToPayment && (
         <div>
           <h3>Provider Information</h3>
           <div>
@@ -160,10 +168,17 @@ function UserDashboard() {
             <p>Physical Address: {providerInfo.physicalAddress}</p>
             <p>Wallet Address: {providerInfo.walletAddress}</p>
             <p>Perks: {providerInfo.perks}</p>
-            <button onClick={handleChargeRequest}>Charge Request</button>
-            <hr />
+            <button onClick={handleProceedWithProvider}>Proceed with this Provider</button>
+            <button onClick={handleCancel}>Cancel</button>
           </div>
         </div>
+      )}
+      {proceedToPayment && (
+        <PaymentPage
+          providerInfo={providerInfo}
+          calculatedWattage={calculatedWattage}
+          onPaymentComplete={handlePaymentComplete}
+        />
       )}
     </>
   );
