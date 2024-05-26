@@ -51,21 +51,33 @@ contract SimpleStorage {
         return providers[index];
     }
 
-    function getProviderWithLeastSellingPrice(string memory _area, uint256 _electricityNeeded) public view returns (Provider memory, uint) {
-        uint lowestPriceIndex = providers.length;
-        uint lowestPrice = type(uint).max;
+    function getProviderWithLeastSellingPrice(
+        string memory _area,
+        uint256 _electricityNeeded,
+        uint256 askingPrice
+    ) public view returns (Provider memory, uint) {
+        uint closestMatchingIndex = providers.length;
+        uint lowestPriceDifference = type(uint).max;
 
         for (uint256 i = 0; i < providers.length; i++) {
-            if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area))) {
-                if (providers[i].sellingPrice < lowestPrice && providers[i].availableElectricity >= _electricityNeeded) {
-                    lowestPrice = providers[i].sellingPrice;
-                    lowestPriceIndex = i;
+            if (
+                keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area)) &&
+                providers[i].availableElectricity >= _electricityNeeded &&
+                providers[i].sellingPrice <= askingPrice
+            ) {
+                uint priceDifference = askingPrice - providers[i].sellingPrice;
+                if (priceDifference < lowestPriceDifference) {
+                    lowestPriceDifference = priceDifference;
+                    closestMatchingIndex = i;
                 }
             }
         }
 
-        require(lowestPriceIndex < providers.length, "No providers found in this area");
-        return (providers[lowestPriceIndex], lowestPriceIndex);
+        require(
+            closestMatchingIndex < providers.length,
+            "No suitable providers found in this area"
+        );
+        return (providers[closestMatchingIndex], closestMatchingIndex);
     }
 
     function requestCharge(uint _index) public {
