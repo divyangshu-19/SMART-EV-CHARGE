@@ -1,13 +1,19 @@
 // components/LandingPage.jsx
 import React from 'react';
-
-function LandingPage({ onSelect }) {
+import './Landing.css';
+function LandingPage() {
+  // { onSelect }
   return (
-    <div className="landing-page">
-      <h1>Welcome</h1>
-      <button onClick={() => onSelect('provider')}>Be a Provider</button>
-      <button onClick={() => onSelect('user')}>Be a User</button>
+    <div className="home-page">
+    <div className="dummy-text">
+      <h1>Welcome to EV Connect</h1>
+      
+      <div>
+        <p>Discover the most affordable and convenient charging stations near you with our app! 
+         </p>
+      </div>
     </div>
+  </div>
   );
 }
 

@@ -1,0 +1,76 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+  }
+
+.home-page {
+    background-image: url('https://thelemonfirm.com/wp-content/uploads/2019/12/Electric-Vehicles-New-Technology-New-Problems.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    /* background-size: cover;
+  background-position: center;
+  height: calc(100vh - 56px); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center; */
+  }
+  
+  .dummy-text {
+    /* background-color: rgba(0, 0, 0, 0.5); */
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 20px;
+    border-radius: 10px;
+    color:white;
+  }
+  
+  .role-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .role-button:hover {
+    background-color: #0056b3;
+  }
+  
+
+  .navbar-light .navbar-nav .nav-link {
+    color: black;
+  }
+  
+  .navbar-light .navbar-brand {
+    color: black;
+  }
+  
+  .navbar-light .navbar-nav .nav-link:hover,
+  .navbar-light .navbar-brand:hover {
+    color: #555;
+  }
+  
+  .dropdown-menu .dropdown-item {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu .dropdown-item:hover {
+    color: #555;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu .dropdown-item.btn-link {
+    text-decoration: none;
+  }

@@ -1,0 +1,158 @@
+/* body {
+    background-image: url('path/to/background-image.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin: 0;
+    font-family: Arial, sans-serif;
+  } */
+  
+  .ProviderDashboard {
+    display: flex;
+    /* height: 100vh; */
+  font-family: Arial, sans-serif;
+  }
+  
+  .sidebar {
+    width: 200px;
+    padding: 20px;
+    background-color: #063261;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky;
+    height: 100vh;
+    top: 0;
+    color: white;
+  }
+  
+  .provider-info h2 {
+    margin: 0;
+    font-size: 1.5em;
+  }
+  
+  .menu {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .menu li {
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .menu li.active,
+  .menu li:hover {
+    background-color: #f5f8f9;
+    color: black;
+    border-radius: 10px;
+  }
+  
+  .bottom-options {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  
+  .bottom-options button {
+    border-radius: 5px;
+  }
+  
+  .dark-mode-toggle {
+    background-color: #f0f0f0;
+    color: #333;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .dark-mode-toggle:hover {
+    background-color: #ddd;
+  }
+  
+  .logout-button {
+    background-color: #ff4c4c;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .logout-button:hover {
+    background-color: #e43b3b;
+  }
+  
+  .content {
+    flex: 1;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+  }
+
+
+ .card {
+    background-color:#f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 800px;
+  }
+   
+  .ProviderDashboard .card {
+    background-color: #063261; 
+    color: white;
+  }
+  
+
+  .card h3 {
+    margin-top: 0;
+    text-align: center;
+  }
+  
+  .card textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+  
+  .card button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    padding: 5px 10px;
+  }
+  
+  .card button:hover {
+    background-color: #0056b3;
+  }
+  
+  .ProviderDashboard.dark-mode {
+    background-color: #332f2f;
+    color: white;
+  }
+  
+  .ProviderDashboard.dark-mode .card {
+    background-color: #211e1e;
+    color: white;
+  }
+  
+  .ProviderDashboard.dark-mode .sidebar{
+    background-color: #211e1e;
+  }
+
+  .ProviderDashboard.dark-mode .card textarea {
+    background-color: #2e2e2e;
+    color: white;
+    border: 1px solid #555;
+  }
+  
+  .ProviderDashboard.dark-mode .card button {
+    background-color: #000306;
+  }
+  

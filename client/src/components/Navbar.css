@@ -1,0 +1,42 @@
+.role-button {
+    background-color: #007bff;
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .role-button:hover {
+    background-color: #0056b3;
+  }
+  
+
+  .navbar-light .navbar-nav .nav-link {
+    color: black;
+  }
+  
+  .navbar-light .navbar-brand {
+    color: black;
+  }
+  
+  .navbar-light .navbar-nav .nav-link:hover,
+  .navbar-light .navbar-brand:hover {
+    color: #555;
+  }
+  
+  .dropdown-menu .dropdown-item {
+    color: black;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu .dropdown-item:hover {
+    color: #555;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu .dropdown-item.btn-link {
+    text-decoration: none;
+  }
