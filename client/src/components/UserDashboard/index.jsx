@@ -14,6 +14,7 @@ function UserDashboard() {
     currentPercentage: "",
     targetPercentage: "",
     fullCharge: false,
+    askingPrice: "", // Ye wala
     area: ""
   };
   const [formData, setFormData] = useState(initialFormData);
@@ -67,7 +68,7 @@ function UserDashboard() {
 
     try {
       const result = await state.contract.methods
-        .getProviderWithLeastSellingPrice(formData.area, calculatedWattage)
+        .getProviderWithLeastSellingPrice(formData.area, calculatedWattage, parseInt(formData.askingPrice))
         .call();
       setProviderInfo(result[0]);
       setProviderIndex(result[1]);
@@ -131,7 +132,17 @@ function UserDashboard() {
                 </option>
               ))}
             </select>
-          </label>
+          </label> <br></br>
+          <label> 
+            Buying Price: 
+            <input
+              type="number"
+              name="askingPrice"
+              value={formData.askingPrice}
+              onChange={handleChange}
+              required
+            />
+          </label><br></br>
           <label>
             Current Battery Percentage:
             <input
@@ -141,7 +152,7 @@ function UserDashboard() {
               onChange={handleChange}
               required
             />
-          </label>
+          </label><br></br>
           <label>
             Target Battery Percentage:
             <input
@@ -153,7 +164,7 @@ function UserDashboard() {
               required={!formData.fullCharge}
             />
             <button type="button" onClick={handleFullCharge}>Full Charge</button>
-          </label>
+          </label><br></br>
           <label>
             Area/Region:
             <select name="area" value={formData.area} onChange={handleChange} required>
@@ -165,7 +176,7 @@ function UserDashboard() {
               ))}
             </select>
           </label>
-          <button type="submit">Find Provider</button>
+          <button type="submit">Find Provider</button><br></br>
         </form>
         {calculatedWattage !== null && (
           <div>
