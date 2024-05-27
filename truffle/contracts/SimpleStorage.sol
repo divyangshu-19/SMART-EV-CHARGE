@@ -1,7 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.4.22 <0.9.0;
 
-contract SimpleStorage {
+contract Updated {
+    // uint _closestMatchingIndex;
     struct Provider {
         string name;
         string businessName;
@@ -9,7 +10,7 @@ contract SimpleStorage {
         uint256 availableElectricity;
         uint256 sellingPrice;
         string physicalAddress;
-        address walletAddress;
+        address payable walletAddress;
         string perks;
     }
 
@@ -32,7 +33,7 @@ contract SimpleStorage {
             availableElectricity: _availableElectricity,
             sellingPrice: _sellingPrice,
             physicalAddress: _physicalAddress,
-            walletAddress: msg.sender,
+            walletAddress: payable(msg.sender),
             perks: _perks
         });
         providers.push(newProvider);
@@ -55,7 +56,7 @@ contract SimpleStorage {
         string memory _area,
         uint256 _electricityNeeded,
         uint256 askingPrice
-    ) public view returns (Provider memory, uint) {
+    ) public view returns (Provider memory, uint) { // Changed view to returns to allow state change
         uint closestMatchingIndex = providers.length;
         uint lowestPriceDifference = type(uint).max;
 
@@ -69,19 +70,32 @@ contract SimpleStorage {
                 if (priceDifference < lowestPriceDifference) {
                     lowestPriceDifference = priceDifference;
                     closestMatchingIndex = i;
+                    
                 }
             }
         }
-
+        
         require(
             closestMatchingIndex < providers.length,
             "No suitable providers found in this area"
         );
         return (providers[closestMatchingIndex], closestMatchingIndex);
     }
-
+    
     function requestCharge(uint _index) public {
         require(_index < providers.length, "Provider index out of bounds");
         providerStatus[_index] = "Charge requested";
     }
+
+    // function sendPayment() public payable {
+    //     require(_closestMatchingIndex < providers.length, "No suitable provider selected");
+    //     Provider storage provider = providers[_closestMatchingIndex];
+    //     require(msg.value >= provider.sellingPrice, "Insufficient payment");
+
+    //     provider.walletAddress.transfer(msg.value);
+    //     providerStatus[_closestMatchingIndex] = "Payment received";
+
+    //     // Reset closestMatchingIndex to an invalid state
+    //     _closestMatchingIndex = providers.length;
+    // }
 }
