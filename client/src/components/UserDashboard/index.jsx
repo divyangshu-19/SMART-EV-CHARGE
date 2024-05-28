@@ -6,11 +6,13 @@ import evData from "../../data/evData.json"; // Import the EV data
 import PaymentPage from "./PaymentPage"; // Import the PaymentPage component
 
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
+const charging = ["3.3 - kWAC Level 1 (Slow Charging)", "7.2 - kW AC Level 2 (Fast Charging)", "Up to 50 kW - DC Fast Charging"]; //add charging speed profiles
 
 function UserDashboard() {
   const { state } = useEth();
   const initialFormData = {
     evModel: "",
+    chargingSpeed: "",
     currentPercentage: "",
     targetPercentage: "",
     fullCharge: false,
@@ -133,6 +135,17 @@ function UserDashboard() {
               ))}
             </select>
           </label> <br></br>
+          <label>
+            Charging Speed:
+            <select name="chargingSpeed" value={formData.chargingSpeed} onChange={handleChange} required>
+              <option value="">Select Charging Speed</option>
+              {charging.map((charging, index) => (
+                <option key={index} value={charging}>
+                  {charging}
+                </option>
+              ))}
+            </select>
+          </label><br />
           <label> 
             Buying Price: 
             <input
@@ -193,6 +206,7 @@ function UserDashboard() {
             <p>Area: {providerInfo.area}</p>
             <p>Available Electricity: {providerInfo.availableElectricity}</p>
             <p>Selling Price: {providerInfo.sellingPrice}</p>
+            <p>Charging Speed: {providerInfo.chargingSpeed}</p>
             <p>Physical Address: {providerInfo.physicalAddress}</p>
             <p>Wallet Address: {providerInfo.walletAddress}</p>
             <p>Perks: {providerInfo.perks}</p>

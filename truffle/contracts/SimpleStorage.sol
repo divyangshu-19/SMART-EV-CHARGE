@@ -8,6 +8,7 @@ contract SimpleStorage {
         string area;
         uint256 availableElectricity;
         uint256 sellingPrice;
+        string chargingSpeed;
         string physicalAddress;
         address walletAddress;
         string perks;
@@ -29,6 +30,7 @@ contract SimpleStorage {
         string memory _area,
         uint256 _availableElectricity,
         uint256 _sellingPrice,
+        string memory _chargingSpeed,
         string memory _physicalAddress,
         string memory _perks
     ) public {
@@ -38,6 +40,7 @@ contract SimpleStorage {
             area: _area,
             availableElectricity: _availableElectricity,
             sellingPrice: _sellingPrice,
+            chargingSpeed: _chargingSpeed,
             physicalAddress: _physicalAddress,
             walletAddress: msg.sender,
             perks: _perks
@@ -66,7 +69,7 @@ contract SimpleStorage {
             if (
                 keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area)) &&
                 providers[i].availableElectricity >= _electricityNeeded &&
-                providers[i].sellingPrice <= askingPrice
+                providers[i].sellingPrice <= askingPrice    
             ) {
                 uint priceDifference = askingPrice - providers[i].sellingPrice;
                 if (priceDifference < lowestPriceDifference) {
