@@ -6,7 +6,7 @@ import ProviderStatus from "./ProviderStatus";
 import ProviderArray from "./ProviderArray";
 
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
-const charging = ["3.3 - kWAC Level 1 (Slow Charging)", "7.2 - kW AC Level 2 (Fast Charging)", "Up to 50 kW - DC Fast Charging"]; //add charging speed profiles
+const charging = ["5 kW - AC Level 1 (Slow Charging)", "10 kW - AC Level 2 (Fast Charging)", "50 kW - DC Fast Charging"]; // Add charging speed profiles
 function ProviderDashboard() {
   const { state } = useEth();
   const [arrayValues, setArrayValues] = useState([]);

@@ -57,34 +57,36 @@ contract SimpleStorage {
         return providers[index];
     }
 
-    function getProviderWithLeastSellingPrice(
-        string memory _area,
-        uint256 _electricityNeeded,
-        uint256 askingPrice
-    ) public view returns (Provider memory, uint) { // Changed view to returns to allow state change
-        uint closestMatchingIndex = providers.length;
-        uint lowestPriceDifference = type(uint).max;
+ function getProviderWithLeastSellingPrice(
+    string memory _area,
+    uint256 _electricityNeeded,
+    uint256 askingPrice,
+    string memory _chargingSpeed
+) public view returns (Provider memory, uint) { 
+    uint closestMatchingIndex = providers.length;
+    uint lowestPriceDifference = type(uint).max;
 
-        for (uint256 i = 0; i < providers.length; i++) {
-            if (
-                keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area)) &&
-                providers[i].availableElectricity >= _electricityNeeded &&
-                providers[i].sellingPrice <= askingPrice    
-            ) {
-                uint priceDifference = askingPrice - providers[i].sellingPrice;
-                if (priceDifference < lowestPriceDifference) {
-                    lowestPriceDifference = priceDifference;
-                    closestMatchingIndex = i;
-                    
-                }
+    for (uint256 i = 0; i < providers.length; i++) {
+        if (
+            keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area)) &&
+            providers[i].availableElectricity >= _electricityNeeded &&
+            providers[i].sellingPrice <= askingPrice &&
+            keccak256(abi.encodePacked(providers[i].chargingSpeed)) == keccak256(abi.encodePacked(_chargingSpeed)) // Check for matching charging speed
+        ) {
+            uint priceDifference = askingPrice - providers[i].sellingPrice;
+            if (priceDifference < lowestPriceDifference) {
+                lowestPriceDifference = priceDifference;
+                closestMatchingIndex = i;
             }
         }
-        require(
-            closestMatchingIndex < providers.length,
-            "No suitable providers found in this area"
-        );
-        return (providers[closestMatchingIndex], closestMatchingIndex);
     }
+    require(
+        closestMatchingIndex < providers.length,
+        "No suitable providers found in this area"
+    );
+    return (providers[closestMatchingIndex], closestMatchingIndex);
+}
+
 
     function requestCharge(uint _index, string memory _evModel, uint256 _electricityNeeded, uint256 _amountPaid) public {
         require(_index < providers.length, "Provider index out of bounds");
