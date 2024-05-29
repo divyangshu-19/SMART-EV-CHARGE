@@ -180,7 +180,7 @@ function UserDashboard() {
         </form>
         {calculatedWattage !== null && (
           <div>
-            <h4>Calculated Wattage: {calculatedWattage} Wh</h4>
+            <h4>Calculated Wattage: {calculatedWattage} KW/h</h4>
           </div>
         )}
       </div>
@@ -191,8 +191,8 @@ function UserDashboard() {
             <p>Name: {providerInfo.name}</p>
             <p>Business Name: {providerInfo.businessName}</p>
             <p>Area: {providerInfo.area}</p>
-            <p>Available Electricity: {providerInfo.availableElectricity}</p>
-            <p>Selling Price: {providerInfo.sellingPrice}</p>
+            <p>Available Electricity: {providerInfo.availableElectricity} KW</p>
+            <p>Selling Price: {providerInfo.sellingPrice} KW/Rs</p>
             <p>Physical Address: {providerInfo.physicalAddress}</p>
             <p>Wallet Address: {providerInfo.walletAddress}</p>
             <p>Perks: {providerInfo.perks}</p>
