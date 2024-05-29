@@ -45,9 +45,9 @@ function PaymentPage({ providerInfo, calculatedWattage, onPaymentComplete }) {
       <p>Selling Price: {providerInfo.sellingPrice} KW/Rs</p>
       <p>Total Amount Payable: {totalAmount} Ethers</p>
       <p>Recipient Address: {providerInfo.walletAddress}</p>
-      <p> <button onClick={handleTransfer}> Pay </button> </p>
+      <p> <button onClick={handleTransfer && onPaymentComplete}> Pay </button> </p>
       {/* <button onClick={() => alert("Proceed to Payment")}>Proceed to Payment</button> */}
-      <button onClick={onPaymentComplete}>Payment Complete</button>
+      {/* <button onClick={onPaymentComplete}>Payment Complete</button> */}
       <div>
       <br />
       {transactionHash && (
