@@ -22,7 +22,7 @@ function UserDashboard() {
   const [providerInfo, setProviderInfo] = useState(null);
   const [providerIndex, setProviderIndex] = useState(null);
   const [proceedToPayment, setProceedToPayment] = useState(false);
-  const [paymentComplete, setPaymentComplete] = useState(false); // New state
+  // const [paymentComplete, setPaymentComplete] = useState(false); // New state
 
   useEffect(() => {
     if (formData.evModel && formData.currentPercentage && (formData.targetPercentage || formData.fullCharge)) {
@@ -94,26 +94,27 @@ function UserDashboard() {
     setProviderInfo(null);
     setProviderIndex(null);
   };
-
+  //Pahle se hi hidden tha
   // const handlePaymentComplete = () => {
   //   alert("Payment Complete!");
   //   setPaymentComplete(true); // Set payment complete flag
   // };
 
-  const handlePaymentComplete = async () => {
-    setPaymentComplete(true);
-    if (providerIndex === null) return;
+  //Ye maine hide kiya
+  // const handlePaymentComplete = async () => {
+  //   setPaymentComplete(true);
+  //   if (providerIndex === null) return;
   
-    const amountPaid = calculatedWattage * providerInfo.sellingPrice;
+  //   const amountPaid = calculatedWattage * providerInfo.sellingPrice;
   
-    try {
-      await state.contract.methods.requestCharge(providerIndex, formData.evModel, calculatedWattage, amountPaid).send({ from: state.accounts[0] });
-      alert("Payment complete! Proceed to your destination and get your EV charged.");
-    } catch (err) {
-      console.error(err);
-      alert("Failed to complete payment.");
-    }
-  };
+  //   try {
+  //     await state.contract.methods.requestCharge(providerIndex, formData.evModel, calculatedWattage, amountPaid).send({ from: state.accounts[0] });
+  //     alert("Payment complete! Proceed to your destination and get your EV charged.");
+  //   } catch (err) {
+  //     console.error(err);
+  //     alert("Failed to complete payment.");
+  //   }
+  // };
   
 
 
@@ -205,14 +206,16 @@ function UserDashboard() {
         <PaymentPage
           providerInfo={providerInfo}
           calculatedWattage={calculatedWattage}
-          onPaymentComplete={handlePaymentComplete}
+          // onPaymentComplete={handlePaymentComplete}
+          onProviderIndex={providerIndex}
+          formData={formData}
         />
       )}
-      {paymentComplete && (
+      {/* {paymentComplete && (
         <div>
           <h4>Payment successful!</h4>
         </div>
-      )}
+      )} */}
     </>
   );
 
