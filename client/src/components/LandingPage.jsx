@@ -9,7 +9,7 @@ function LandingPage() {
       <h1>Welcome to EV Connect</h1>
       
       <div>
-        <p>Discover the most affordable and convenient charging stations near you with our app! 
+        <p>Discover the most affordable and convenient charging stations near you with our Dapp! 
          </p>
       </div>
     </div>
