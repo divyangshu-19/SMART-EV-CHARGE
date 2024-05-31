@@ -6,7 +6,7 @@ import ProviderStatus from "./ProviderStatus";
 import ProviderArray from "./ProviderArray";
 
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
-
+const charging = ["5 kW - AC Level 1 (Slow Charging)", "10 kW - AC Level 2 (Fast Charging)", "50 kW - DC Fast Charging"]; // Add charging speed profiles
 function ProviderDashboard() {
   const { state } = useEth();
   const [arrayValues, setArrayValues] = useState([]);
@@ -16,6 +16,7 @@ function ProviderDashboard() {
     area: "",
     availableElectricity: "",
     sellingPrice: "",
+    chargingSpeed: "",
     physicalAddress: "",
     walletAddress: "",
     perks: ""
@@ -47,6 +48,7 @@ function ProviderDashboard() {
         formData.area,
         parseInt(formData.availableElectricity),
         parseInt(formData.sellingPrice),
+        formData.chargingSpeed,
         formData.physicalAddress,
         formData.perks
       )
@@ -58,6 +60,7 @@ function ProviderDashboard() {
       area: "",
       availableElectricity: "",
       sellingPrice: "",
+      chargingSpeed: "",
       physicalAddress: "",
       walletAddress: "",
       perks: ""
@@ -174,6 +177,17 @@ function ProviderDashboard() {
               onChange={handleChange}
               required
             />
+          </label><br /><br />
+          <label>
+            Charging Speed:
+            <select name="chargingSpeed" value={formData.chargingSpeed} onChange={handleChange} required>
+              <option value="">Select Charging Speed</option>
+              {charging.map((charging, index) => (
+                <option key={index} value={charging}>
+                  {charging}
+                </option>
+              ))}
+            </select>
           </label><br /><br />
           <label>
             Physical Address:

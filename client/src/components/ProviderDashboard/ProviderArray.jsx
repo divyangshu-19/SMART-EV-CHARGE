@@ -14,6 +14,7 @@ function ProviderArray({ arrayValues, readArray }) {
             <p>Area/Region: {provider.area}</p>
             <p>Available Electricity: {provider.availableElectricity}</p>
             <p>Selling Price: {provider.sellingPrice}</p>
+            <p>Charging Speed: {provider.chargingSpeed}</p>
             <p>Physical Address: {provider.physicalAddress}</p>
             <p>Wallet Address: {provider.walletAddress}</p>
             <p>Perks: {provider.perks}</p>
