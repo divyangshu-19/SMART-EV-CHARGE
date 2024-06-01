@@ -6,7 +6,7 @@ import ProviderStatus from "./ProviderStatus";
 import ProviderArray from "./ProviderArray";
 
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
-
+const charging = ["5 kW - AC Level 1 (Slow Charging)", "10 kW - AC Level 2 (Fast Charging)", "50 kW - DC Fast Charging"]; // Add charging speed profiles
 function ProviderDashboard() {
   const { state } = useEth();
   const [arrayValues, setArrayValues] = useState([]);
@@ -16,6 +16,7 @@ function ProviderDashboard() {
     area: "",
     availableElectricity: "",
     sellingPrice: "",
+    chargingSpeed: "",
     physicalAddress: "",
     walletAddress: "",
     perks: ""
@@ -25,7 +26,8 @@ function ProviderDashboard() {
     currentCharge: '',
     sellingRate: '',
     estimatedEarnings: '',
-    statusMessage: 'Waiting for a user'
+    statusMessage: 'Waiting for a user',
+    recentTransactions: []
   });
 
   useEffect(() => {
@@ -46,8 +48,8 @@ function ProviderDashboard() {
         formData.area,
         parseInt(formData.availableElectricity),
         parseInt(formData.sellingPrice),
+        formData.chargingSpeed,
         formData.physicalAddress,
-        // formData.walletAddress,
         formData.perks
       )
       .send({ from: state.accounts[0] });
@@ -58,6 +60,7 @@ function ProviderDashboard() {
       area: "",
       availableElectricity: "",
       sellingPrice: "",
+      chargingSpeed: "",
       physicalAddress: "",
       walletAddress: "",
       perks: ""
@@ -83,7 +86,6 @@ function ProviderDashboard() {
   };
 
   const fetchProviderStatus = async () => {
-    // Assuming we're interested in the status of the last added provider
     const index = (await state.contract.methods.getProvidersCount().call({
       from: state.accounts[0]
     })) - 1;
@@ -93,20 +95,30 @@ function ProviderDashboard() {
         from: state.accounts[0]
       });
 
-      const currentCharge = await state.contract.methods.getCurrentCharge(index).call({
-        from: state.accounts[0]
-      });
-
+      const currentCharge = provider[3]; // Assuming availableElectricity is the 4th element in the provider tuple
       const sellingRate = provider[4]; // sellingPrice is the 5th element in the provider tuple
       const estimatedEarnings = currentCharge * sellingRate;
 
       const statusMessage = await state.contract.methods.providerStatus(index).call();
+      let recentTransactions = [];
+
+      if (statusMessage === "Charge requested") {
+        const userRequest = await state.contract.methods.userRequests(index).call();
+
+        recentTransactions.push({
+          evModel: userRequest.evModel,
+          electricityNeeded: userRequest.electricityNeeded,
+          sellingPrice: sellingRate,
+          amountPaid: userRequest.amountPaid
+        });
+      }
 
       setProviderStatus({
         currentCharge: currentCharge,
         sellingRate: sellingRate,
         estimatedEarnings: estimatedEarnings,
-        statusMessage: statusMessage
+        statusMessage: statusMessage,
+        recentTransactions: recentTransactions
       });
     }
   };
@@ -165,6 +177,17 @@ function ProviderDashboard() {
               onChange={handleChange}
               required
             />
+          </label><br /><br />
+          <label>
+            Charging Speed:
+            <select name="chargingSpeed" value={formData.chargingSpeed} onChange={handleChange} required>
+              <option value="">Select Charging Speed</option>
+              {charging.map((charging, index) => (
+                <option key={index} value={charging}>
+                  {charging}
+                </option>
+              ))}
+            </select>
           </label><br /><br />
           <label>
             Physical Address:

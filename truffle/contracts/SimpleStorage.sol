@@ -8,13 +8,21 @@ contract SimpleStorage {
         string area;
         uint256 availableElectricity;
         uint256 sellingPrice;
+        string chargingSpeed;
         string physicalAddress;
         address walletAddress;
         string perks;
     }
 
+    struct UserRequest {
+        string evModel;
+        uint256 electricityNeeded;
+        uint256 amountPaid;
+    }
+
     Provider[] providers;
     mapping(uint => string) public providerStatus;
+    mapping(uint => UserRequest) public userRequests;
 
     function addProvider(
         string memory _name,
@@ -22,6 +30,7 @@ contract SimpleStorage {
         string memory _area,
         uint256 _availableElectricity,
         uint256 _sellingPrice,
+        string memory _chargingSpeed,
         string memory _physicalAddress,
         string memory _perks
     ) public {
@@ -31,15 +40,12 @@ contract SimpleStorage {
             area: _area,
             availableElectricity: _availableElectricity,
             sellingPrice: _sellingPrice,
+            chargingSpeed: _chargingSpeed,
             physicalAddress: _physicalAddress,
             walletAddress: msg.sender,
             perks: _perks
         });
         providers.push(newProvider);
-    }
-
-    function getCurrentCharge(uint _index) public view returns (uint) {
-        return providers[_index].availableElectricity;
     }
 
     function getProvidersCount() public view returns (uint256) {
@@ -51,37 +57,51 @@ contract SimpleStorage {
         return providers[index];
     }
 
-    function getProviderWithLeastSellingPrice(
-        string memory _area,
-        uint256 _electricityNeeded,
-        uint256 askingPrice
-    ) public view returns (Provider memory, uint) {
-        uint closestMatchingIndex = providers.length;
-        uint lowestPriceDifference = type(uint).max;
+    function getProviderWithLeastSellingPrice(string memory _area, uint256 _electricityNeeded) public view returns (Provider memory, uint) {
+        uint lowestPriceIndex = providers.length;
+        uint lowestPrice = type(uint).max;
 
         for (uint256 i = 0; i < providers.length; i++) {
-            if (
-                keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area)) &&
-                providers[i].availableElectricity >= _electricityNeeded &&
-                providers[i].sellingPrice <= askingPrice
-            ) {
-                uint priceDifference = askingPrice - providers[i].sellingPrice;
-                if (priceDifference < lowestPriceDifference) {
-                    lowestPriceDifference = priceDifference;
-                    closestMatchingIndex = i;
+            if (keccak256(abi.encodePacked(providers[i].area)) == keccak256(abi.encodePacked(_area))) {
+                if (providers[i].sellingPrice < lowestPrice && providers[i].availableElectricity >= _electricityNeeded) {
+                    lowestPrice = providers[i].sellingPrice;
+                    lowestPriceIndex = i;
                 }
             }
         }
 
-        require(
-            closestMatchingIndex < providers.length,
-            "No suitable providers found in this area"
-        );
-        return (providers[closestMatchingIndex], closestMatchingIndex);
+        require(lowestPriceIndex < providers.length, "No providers found in this area");
+        return (providers[lowestPriceIndex], lowestPriceIndex);
     }
 
-    function requestCharge(uint _index) public {
+    function transferEther(uint _index, string memory _evModel, uint256 _electricityNeeded, uint256 _amountPaid, address payable _to, uint _amount) public payable {
         require(_index < providers.length, "Provider index out of bounds");
+        require(providers[_index].availableElectricity >= _electricityNeeded, "Not enough available electricity");
+        providers[_index].availableElectricity -= _electricityNeeded;
         providerStatus[_index] = "Charge requested";
+        userRequests[_index] = UserRequest({
+            evModel: _evModel,
+            electricityNeeded: _electricityNeeded,
+            amountPaid: _amountPaid
+        });
+        require(address(this).balance >= _amount, "Insufficient balance in contract");
+        _to.transfer(_amount);
     }
+
+
+    // function transferEther(address payable _to, uint _amount) public payable {
+    //     require(address(this).balance >= _amount, "Insufficient balance in contract");
+    //     _to.transfer(_amount);
+    // }
+    // function requestCharge(uint _index, string memory _evModel, uint256 _electricityNeeded, uint256 _amountPaid) public {
+    //     require(_index < providers.length, "Provider index out of bounds");
+    //     require(providers[_index].availableElectricity >= _electricityNeeded, "Not enough available electricity");
+    //     providers[_index].availableElectricity -= _electricityNeeded;
+    //     providerStatus[_index] = "Charge requested";
+    //     userRequests[_index] = UserRequest({
+    //         evModel: _evModel,
+    //         electricityNeeded: _electricityNeeded,
+    //         amountPaid: _amountPaid
+    //     });
+    // }
 }
