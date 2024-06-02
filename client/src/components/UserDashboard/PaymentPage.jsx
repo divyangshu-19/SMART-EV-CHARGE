@@ -62,7 +62,7 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
   // }
     
   return (
-    <div style={{ padding: "20px", background: "#f8f9fa", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)", textAlign: "center" }}>
+    <div>
       <h3>Payment Page</h3>
       <p>Provider: {providerInfo.name}</p>
       <p>Business: {providerInfo.businessName}</p>
@@ -71,21 +71,25 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
       <p>Selling Price: {providerInfo.sellingPrice} KW/Rs</p>
       <p>Total Amount Payable: {totalAmount} Ethers</p>
       <p>Recipient Address: {providerInfo.walletAddress}</p>
-      <button onClick={handleTransfer} className="btn btn-primary" style={{ marginTop: "20px" }}>Pay</button>
-      <div style={{ marginTop: "20px" }}>
-        {paymentComplete && (
-          <div>
-            <h4>Payment successful!</h4>
-          </div>
-        )}
-        {transactionHash && (
-          <div style={{ padding: "10px", background: "#ffffff", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)", marginTop: "20px" }}>
-            <p>Go to the charging location: {providerInfo.physicalAddress}</p>
-            <p>Transaction Hash: {transactionHash}</p>
-          </div>
-        )}
-      </div>
+      <button onClick={ handleTransfer }> Pay </button>
+      {/* <button onClick={() => alert("Proceed to Payment")}>Proceed to Payment</button> */}
+      {/* <button onClick={onPaymentComplete}>Payment Complete</button> */}
+      <div>
+      <br />
+      {paymentComplete && (
+        <div>
+          <h4>Payment successful!</h4>
+        </div>
+      )} <br></br>
+      {transactionHash && (
+        <div>
+          <p>Go to the charging location: {providerInfo.physicalAddress}</p>
+          <p>Transaction Hash: {transactionHash}</p>
+        </div>
+      )}
     </div>
+    </div>
+    
   );
 }
 export default PaymentPage;

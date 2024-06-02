@@ -5,8 +5,8 @@ import NoticeWrongNetwork from "../ProviderDashboard/NoticeWrongNetwork";
 import evData from "../../data/evData.json"; // Import the EV data
 import PaymentPage from "./PaymentPage"; // Import the PaymentPage component
 
-const regions = ["Region1", "Region2", "Region3"]; 
-const charging = ["5 kW - AC Level 1 (Slow Charging)", "10 kW - AC Level 2 (Fast Charging)", "50 kW - DC Fast Charging"]; 
+const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
+const charging = ["5 kW - AC Level 1 (Slow Charging)", "10 kW - AC Level 2 (Fast Charging)", "50 kW - DC Fast Charging"]; // Add charging speed profiles
 
 function UserDashboard() {
   const { state } = useEth();
@@ -131,13 +131,12 @@ function UserDashboard() {
 
   const UserDashboardContent = (
     <>
-    <div style={{ display: "flex", justifyContent: "space-between", padding: "20px" }}>
-      <div style={{ flex: "0 0 45%", padding: "20px", background: "#f8f9fa", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}>
-        <h3 style={{ textAlign: "center" }}>User Information</h3>
+      <div>
+        <h3>User Information</h3>
         <form onSubmit={handleSubmit}>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Select EV Model:</label>
-            <select name="evModel" value={formData.evModel} onChange={handleChange} required style={{ display: "block", width: "100%", marginTop: "5px", padding: "5px"  }}>
+          <label>
+            Select EV Model:
+            <select name="evModel" value={formData.evModel} onChange={handleChange} required>
               <option value="">Select EV</option>
               {evData.map((ev, index) => (
                 <option key={index} value={ev.model}>
@@ -145,10 +144,10 @@ function UserDashboard() {
                 </option>
               ))}
             </select>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Charging Speed:</label>
-            <select name="chargingSpeed" value={formData.chargingSpeed} onChange={handleChange} required style={{ display: "block", width: "100%", marginTop: "5px" , padding: "5px" }}>
+          </label> <br></br>
+          <label>
+            Charging Speed:
+            <select name="chargingSpeed" value={formData.chargingSpeed} onChange={handleChange} required>
               <option value="">Select Charging Speed</option>
               {charging.map((charging, index) => (
                 <option key={index} value={charging}>
@@ -156,33 +155,29 @@ function UserDashboard() {
                 </option>
               ))}
             </select>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Buying Price:</label>
+          </label><br />
+          <label> 
+            Buying Price: 
             <input
               type="number"
               name="askingPrice"
               value={formData.askingPrice}
               onChange={handleChange}
               required
-              style={{ display: "block", width: "100%", marginTop: "5px", padding: "5px" }}
-              placeholder="Enter Detail"
             />
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Current Battery Percentage:</label>
+          </label><br></br>
+          <label>
+            Current Battery Percentage:
             <input
               type="number"
               name="currentPercentage"
               value={formData.currentPercentage}
               onChange={handleChange}
               required
-              style={{ display: "block", width: "100%", marginTop: "5px" , padding: "5px" }}
-              placeholder="Enter Detail"
             />
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Target Battery Percentage:</label>
+          </label><br></br>
+          <label>
+            Target Battery Percentage:
             <input
               type="number"
               name="targetPercentage"
@@ -190,14 +185,12 @@ function UserDashboard() {
               onChange={handleChange}
               disabled={formData.fullCharge}
               required={!formData.fullCharge}
-              style={{ display: "block", width: "100%", marginTop: "5px", padding: "5px"  }}
-              placeholder="Enter Detail"
             />
-            <button type="button" onClick={handleFullCharge} style={{ marginTop: "5px", backgroundColor : "blueviolet", color:'white', border : '1px solid blueviolet', borderRadius:'5px'}}>Full Charge</button>
-          </div>
-          <div style={{ marginBottom: "10px" }}>
-            <label>Area/Region:</label>
-            <select name="area" value={formData.area} onChange={handleChange} required style={{ display: "block", width: "100%", marginTop: "5px" , padding: "5px" }}>
+            <button type="button" onClick={handleFullCharge}>Full Charge</button>
+          </label><br></br>
+          <label>
+            Area/Region:
+            <select name="area" value={formData.area} onChange={handleChange} required>
               <option value="">Select Region</option>
               {regions.map((region, index) => (
                 <option key={index} value={region}>
@@ -205,10 +198,8 @@ function UserDashboard() {
                 </option>
               ))}
             </select>
-          </div>
-          <div style={{ textAlign: "center" }}>
-            <button type="submit" className="btn btn-primary" style={{ marginTop: "20px" }}>Find Provider</button>
-          </div>
+          </label>
+          <button type="submit">Find Provider</button><br></br>
         </form>
         {calculatedWattage !== null && (
           <div>
@@ -216,41 +207,43 @@ function UserDashboard() {
           </div>
         )}
         {chargingTime !== null && (
-          <div>
-            <h4>Estimated Charging Time: {chargingTime.hours} hours and {chargingTime.minutes} minutes</h4>
-          </div>
-        )}
+  <div>
+    <h4>Estimated Charging Time: {chargingTime.hours} hours and {chargingTime.minutes} minutes</h4>
+  </div>
+)}
+
       </div>
       {providerInfo && !proceedToPayment && (
-        <div style={{ flex: "0 0 45%", padding: "20px", background: "#f8f9fa", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)" }}>
-          <h3 style={{ textAlign: "center" }}>Provider Information</h3>
+        <div>
+          <h3>Provider Information</h3>
           <div>
             <p>Name: {providerInfo.name}</p>
             <p>Business Name: {providerInfo.businessName}</p>
             <p>Area: {providerInfo.area}</p>
             <p>Available Electricity: {providerInfo.availableElectricity} KW</p>
-            <p>Selling Price: {providerInfo.sellingPrice}KW/Rs</p>
-              <p>Physical Address: {providerInfo.physicalAddress}</p>
-              <p>Wallet Address: {providerInfo.walletAddress}</p>
-              <p>Perks: {providerInfo.perks}</p>
-              <div style={{ textAlign: "center" }}>
-                <button onClick={handleProceedWithProvider} className="btn btn-primary" style={{ marginRight: "10px" }}>Proceed with this Provider</button>
-                <button onClick={handleCancel} className="btn btn-secondary">Cancel</button>
-              </div>
-            </div>
+            <p>Selling Price: {providerInfo.sellingPrice} KW/Rs</p>
+            <p>Physical Address: {providerInfo.physicalAddress}</p>
+            <p>Wallet Address: {providerInfo.walletAddress}</p>
+            <p>Perks: {providerInfo.perks}</p>
+            <button onClick={handleProceedWithProvider}>Proceed with this Provider</button>
+            <button onClick={handleCancel}>Cancel</button>
           </div>
-        )}
-      </div>
-      {proceedToPayment && (
-        <div style={{ padding: "20px", background: "#f8f9fa", borderRadius: "8px", boxShadow: "0 4px 8px rgba(0,0,0,0.1)", marginTop: "20px" }}>
-          <PaymentPage
-            providerInfo={providerInfo}
-            calculatedWattage={calculatedWattage}
-            onProviderIndex={providerIndex}
-            formData={formData}
-          />
         </div>
       )}
+      {proceedToPayment && (
+        <PaymentPage
+          providerInfo={providerInfo}
+          calculatedWattage={calculatedWattage}
+          // onPaymentComplete={handlePaymentComplete}
+          onProviderIndex={providerIndex}
+          formData={formData}
+        />
+      )}
+      {/* {paymentComplete && (
+        <div>
+          <h4>Payment successful!</h4>
+        </div>
+      )} */}
     </>
   );
 
