@@ -59,12 +59,12 @@ function UserDashboard() {
       return;
     }
 
-    const electricityNeeded = ((targetPercentage - currentPercentage) / 100) * capacity  * 1000; // Convert kWh to Wh
+    const electricityNeeded = ((targetPercentage - currentPercentage) / 100) * capacity; // Convert kWh to Wh
     setCalculatedWattage(electricityNeeded);
 
     // Calculate charging time
     const chargingSpeedKW = parseFloat(formData.chargingSpeed.split(" ")[0])  * 1000; // Extract charging speed in kW
-    const chargingTimeHours = electricityNeeded / chargingSpeedKW; // Time in hours
+    const chargingTimeHours = (electricityNeeded * 1000) / chargingSpeedKW; // Time in hours
     const hours = Math.floor(chargingTimeHours);
     const minutes = Math.round((chargingTimeHours - hours) * 60);
     setChargingTime({ hours, minutes });

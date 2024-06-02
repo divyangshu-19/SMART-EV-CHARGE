@@ -33,72 +33,90 @@
 
 
 
-
-
 import React, { useState } from 'react';
+import './LoginPage.css';
+import { doCreateUserWithEmailAndPassword } from '../firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-const Register = () => {
-  const [formData, setFormData] = useState({
-    username: '',
-    email: '',
-    password: '',
-  });
+const Register = ({ role }) => {
 
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleSubmit = (e) => {
+  const handleRegistration = async (e) => {
     e.preventDefault();
-    // Perform your registration logic here
-
-    // On successful registration, navigate to another page
-    navigate('/dashboard');
+    setErrorMessage('');
+    if (password !== confirmPassword) {
+      setErrorMessage("Passwords do not match");
+      return;
+    }
+    if (!isRegistering) { // Check if it's not registering
+      setIsRegistering(true);
+      try {
+        await doCreateUserWithEmailAndPassword(email, password);
+        setEmail(''); // Clear email field after registration
+        setPassword(''); // Clear password field after registration
+        setConfirmPassword(''); // Clear confirm password field after registration
+        navigate(role === 'provider' ? '/provider-login' : '/consumer-login');
+      } catch (error) {
+        setErrorMessage(error.message);
+      } finally {
+        setIsRegistering(false); // Reset the registration state
+      }
+    }
   };
 
   return (
-    <div>
-      <h2>Register</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label htmlFor="username">Username:</label>
-          <input
-            type="text"
-            id="username"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-          />
+    <div className="login-page">
+      <div className="card-login">
+        <div className="card-body">
+          <h1 className="card-title">Register as {role} </h1>
+              <form onSubmit={handleRegistration}>
+                <div className="form-group">
+                  <label>Enter E-mail: <span className='text-danger'> *</span></label>
+                  <input
+                    type="email"
+                    autoComplete='email'
+                    required
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="form-control"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Enter Password: <span className='text-danger'> *</span></label>
+                  <input
+                    type="password"
+                    autoComplete='new-password'
+                    required
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    className="form-control"
+                  />
+                </div>
+                <div className="form-group">
+                  <label>Confirm Password: <span className='text-danger'> *</span></label>
+                  <input
+                    type="password"
+                    autoComplete='off'
+                    required
+                    value={confirmPassword}
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                    className="form-control"
+                  />
+                </div>
+                {errorMessage && (
+                  <span className='text-red-600 font-bold'>{errorMessage}</span>
+                )}
+                <button type="submit" disabled={isRegistering} className="btn btn-primary">Register</button>
+              </form>
+              <button onClick={() => navigate(role === 'provider' ? '/provider-login' : '/consumer-login')} className="btn btn-link">Back to Login</button>
         </div>
-        <div>
-          <label htmlFor="email">Email:</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <div>
-          <label htmlFor="password">Password:</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-          />
-        </div>
-        <button type="submit">Register</button>
-      </form>
+      </div>
     </div>
   );
 };

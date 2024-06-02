@@ -31,7 +31,7 @@ function App() {
         <Route path="/provider-login" element={<ProviderLogin role={selectedRole} />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/provider-dashboard" element={<ProviderDashboard />} />
-        <Route path="/register" element={<Register />} />
+        <Route path="/register" element={<Register role={selectedRole} />} />
         <Route path="*" element={<LandingPage />} />
       </Routes>
       
