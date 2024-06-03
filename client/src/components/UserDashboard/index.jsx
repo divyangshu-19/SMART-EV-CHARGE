@@ -235,7 +235,7 @@ function UserDashboard() {
                 <p>Business Name: {providerInfo.businessName}</p>
                 <p>Area: {providerInfo.area}</p>
                 <p>Available Electricity: {providerInfo.availableElectricity} KW</p>
-                <p>Selling Price: {providerInfo.sellingPrice} KW/Rs</p>
+                <p>Selling Price: {providerInfo.sellingPrice} Rs/KW </p>
                 <p>Physical Address: {providerInfo.physicalAddress}</p>
                 <p>Wallet Address: {providerInfo.walletAddress}</p>
                 <p>Perks: {providerInfo.perks}</p>

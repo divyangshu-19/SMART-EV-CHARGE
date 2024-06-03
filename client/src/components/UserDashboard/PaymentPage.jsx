@@ -4,7 +4,6 @@ import useEth from "../../contexts/EthContext/useEth";
 // import NoticeWrongNetwork from "../ProviderDashboard/NoticeWrongNetwork";
 import Web3 from "web3";
 import "./Pay.css";
-import {fetchProviderStatus} from "../ProviderDashboard/ProviderStatus"
 
 function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formData }) {
   const { state } = useEth();
@@ -35,7 +34,6 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
         .send({ from: state.accounts[0], value: amountInWei });
       setTransactionHash(tx.transactionHash);
       alert("Transfer successful!");
-      // fetchProviderStatus(); // Refresh the provider status
     } catch (err) {
       console.error("Transfer failed:", err);
       alert("Transfer failed. Please check the console for details.");
@@ -71,7 +69,7 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
       <p>Business: {providerInfo.businessName}</p>
       <p>Physical Address: {providerInfo.physicalAddress}</p>
       <p>Total Electricity Required: {calculatedWattage} KW</p>
-      <p>Selling Price: {providerInfo.sellingPrice} KW/Rs</p>
+      <p>Selling Price: {providerInfo.sellingPrice} Rs/KW </p>
       <p>Total Amount Payable: {totalAmount} Ethers</p>
       <p>Recipient Address: {providerInfo.walletAddress}</p>
       <button onClick={handleTransfer} className="btn btn-primary mt-2"> Pay </button>
@@ -79,11 +77,11 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
       {/* <button onClick={onPaymentComplete}>Payment Complete</button> */}
       <div>
         <br />
-        {paymentComplete && (
+        {/* {paymentComplete && (
           <div>
             <h4>Payment successful!</h4>
           </div>
-        )} <br></br>
+        )} <br></br> */}
         {transactionHash && (
           <div>
             <h6>Go to the charging location: {providerInfo.physicalAddress}</h6>

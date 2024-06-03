@@ -39,7 +39,7 @@ function ProviderStatus() {
           <h5 className="card-title text-left">Provider Current Status</h5>
           <p className="card-text text-left">Current Charge: {providerStatus.provider.availableElectricity}</p>
           <p className="card-text text-left">Selling Rate: {providerStatus.provider.sellingPrice}</p>
-          <p className="card-text text-left">Estimated Earnings: {estimatedEarnings} Ethers</p>
+          <p className="card-text text-left">Total Earnings: {estimatedEarnings} Rs</p>
           <p className="card-text text-left">Status: {providerStatus.statusMessage}</p>
           {providerStatus.recentTransactions && providerStatus.recentTransactions.length > 0 && (
             <>
@@ -47,7 +47,7 @@ function ProviderStatus() {
               <ul className="list-group">
                 {providerStatus.recentTransactions.map((transaction, index) => (
                   <li key={index} className="list-group-item text-left">
-                    EV Model: {transaction.evModel} - Bought {transaction.electricityNeeded} kWh for {transaction.amountPaid} - Total: {transaction.amountPaid}
+                    EV Model: {transaction.evModel} - Bought {transaction.electricityNeeded} kWh for {transaction.amountPaid} - Total: {transaction.amountPaid} Rs
                   </li>
                 ))}
               </ul>
