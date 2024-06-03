@@ -37,9 +37,9 @@ function ProviderStatus() {
       <div className="card p-3" style={{ width: '22rem', marginTop: '20px', backgroundColor: '#D3D3D3' }}>
         <div className="card-body p-3 bg-light rounded shadow-sm mb-3" style={{ color: 'white' }}>
           <h5 className="card-title text-left">Provider Current Status</h5>
-          <p className="card-text text-left">Current Charge: {providerStatus.provider.availableElectricity}</p>
-          <p className="card-text text-left">Selling Rate: {providerStatus.provider.sellingPrice}</p>
-          <p className="card-text text-left">Total Earnings: {estimatedEarnings} Rs</p>
+          <p className="card-text text-left">Current Charge: {providerStatus.provider.availableElectricity} KW </p>
+          <p className="card-text text-left">Selling Rate: {providerStatus.provider.sellingPrice} Rs/KW</p>
+          <p className="card-text text-left">Total Earnings: {estimatedEarnings} Rs </p>
           <p className="card-text text-left">Status: {providerStatus.statusMessage}</p>
           {providerStatus.recentTransactions && providerStatus.recentTransactions.length > 0 && (
             <>
