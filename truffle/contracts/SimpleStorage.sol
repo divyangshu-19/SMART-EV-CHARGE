@@ -103,19 +103,5 @@ contract SimpleStorage {
     }
 
 
-    // function transferEther(address payable _to, uint _amount) public payable {
-    //     require(address(this).balance >= _amount, "Insufficient balance in contract");
-    //     _to.transfer(_amount);
-    // }
-    // function requestCharge(uint _index, string memory _evModel, uint256 _electricityNeeded, uint256 _amountPaid) public {
-    //     require(_index < providers.length, "Provider index out of bounds");
-    //     require(providers[_index].availableElectricity >= _electricityNeeded, "Not enough available electricity");
-    //     providers[_index].availableElectricity -= _electricityNeeded;
-    //     providerStatus[_index] = "Charge requested";
-    //     userRequests[_index] = UserRequest({
-    //         evModel: _evModel,
-    //         electricityNeeded: _electricityNeeded,
-    //         amountPaid: _amountPaid
-    //     });
-    // }
+  
 }

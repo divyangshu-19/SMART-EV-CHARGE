@@ -11,6 +11,7 @@ import ProviderLogin from "./components/ProviderLogin";
 import UserDashboard from "./components/UserDashboard";
 import ProviderDashboard from "./components/ProviderDashboard";
 import LandingPage from "./components/LandingPage";
+import Admin from "./components/Admin";
 // import PaymentPage from "./components/UserDashboard/PaymentPage";
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
         <Route path="/provider-login" element={<ProviderLogin role={selectedRole} />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/provider-dashboard" element={<ProviderDashboard />} />
+        <Route path="/admin" element={<Admin />} />
         <Route path="*" element={<LandingPage />} />
       </Routes>
       
