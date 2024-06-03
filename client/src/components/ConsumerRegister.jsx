@@ -38,7 +38,7 @@ import './LoginPage.css';
 import { doCreateUserWithEmailAndPassword } from '../firebase/auth';
 import { useNavigate } from 'react-router-dom';
 
-const Register = ({ role }) => {
+function ConsumerRegister ({ role }) {
 
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
@@ -46,6 +46,8 @@ const Register = ({ role }) => {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isRegistering, setIsRegistering] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  console.log("Role: ", role);
 
   const handleRegistration = async (e) => {
     e.preventDefault();
@@ -61,7 +63,7 @@ const Register = ({ role }) => {
         setEmail(''); // Clear email field after registration
         setPassword(''); // Clear password field after registration
         setConfirmPassword(''); // Clear confirm password field after registration
-        navigate(role === 'provider' ? '/provider-login' : '/consumer-login');
+        navigate('/consumer-login');
       } catch (error) {
         setErrorMessage(error.message);
       } finally {
@@ -114,13 +116,13 @@ const Register = ({ role }) => {
                 )}
                 <button type="submit" disabled={isRegistering} className="btn btn-primary">Register</button>
               </form>
-              <button onClick={() => navigate(role === 'provider' ? '/provider-login' : '/consumer-login')} className="btn btn-link">Back to Login</button>
+              <button onClick={() => navigate('/consumer-login')} className="btn btn-link">Back to Login</button>
         </div>
       </div>
     </div>
   );
 };
 
-export default Register;
+export default ConsumerRegister;
 
 

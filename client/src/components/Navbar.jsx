@@ -92,7 +92,7 @@ const Navbar = ({ onSelect }) => {
                 <Link className="dropdown-item" to="/consumer-login" onClick={() => onSelect('Consumer')}>Login</Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="/register">Register</Link>
+                <Link className="dropdown-item" to="/register-consumer" onClick={() => onSelect('Consumer')}>Register</Link>
               </li>
             </ul>
           </li>
@@ -105,7 +105,7 @@ const Navbar = ({ onSelect }) => {
                 <Link className="dropdown-item" to="/provider-login" onClick={() => onSelect('Provider')}>Login</Link>
               </li>
               <li>
-                <Link className="dropdown-item" to="/register">Register</Link>
+                <Link className="dropdown-item" to="/register-provider" onClick={() => onSelect('Provider')}>Register</Link>
               </li>
             </ul>
           </li>
