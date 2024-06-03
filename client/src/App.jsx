@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Register from "./components/Register";
+import ProviderRegister from "./components/ProviderRegister";
+import ConsumerRegister from "./components/ConsumerRegister";
 import Navbar from "./components/Navbar";
 import { EthProvider } from "./contexts/EthContext";
 import About from "./components/About";
@@ -28,12 +29,12 @@ function App() {
         <Route path="/home" element={<LandingPage />} />
         <Route path="/about" element={<About />} />
         <Route path="/service" element={<Service />} />
+        <Route path="/register-provider" element={<ProviderRegister role={selectedRole} />} />
+        <Route path="/register-consumer" element={<ConsumerRegister role={selectedRole} />} />
         <Route path="/consumer-login" element={<ConsumerLogin role={selectedRole} />} />
         <Route path="/provider-login" element={<ProviderLogin role={selectedRole} />} />
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/provider-dashboard" element={<ProviderDashboard />} />
-        <Route path="/register" element={<Register role={selectedRole} />} />
-        {/* <Route path="/payment-page" element={<PaymentPage />} /> */}
         <Route path="*" element={<LandingPage />} />
       </Routes>
       

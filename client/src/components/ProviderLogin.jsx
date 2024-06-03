@@ -116,7 +116,7 @@ const ProviderLogin = ({ role }) => {
             )}
             <button type="submit" disabled={isSigningIn} className="btn btn-primary">Login</button>
           </form>
-          <span className="form-text">Don't have an account? <button onClick={() => navigate('/register')} className="btn-register">Register</button></span>
+          <span className="form-text">Don't have an account? <button onClick={() => navigate('/register-provider')} className="btn-register">Register</button></span>
           <div className="divider">
             <div className="divider-line"></div>
             <div className="divider-text">OR</div>
