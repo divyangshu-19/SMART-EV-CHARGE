@@ -4,6 +4,7 @@ import useEth from "../../contexts/EthContext/useEth";
 // import NoticeWrongNetwork from "../ProviderDashboard/NoticeWrongNetwork";
 import Web3 from "web3";
 import "./Pay.css";
+import {fetchProviderStatus} from "../ProviderDashboard/ProviderStatus"
 
 function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formData }) {
   const { state } = useEth();
@@ -34,6 +35,7 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
         .send({ from: state.accounts[0], value: amountInWei });
       setTransactionHash(tx.transactionHash);
       alert("Transfer successful!");
+      // fetchProviderStatus(); // Refresh the provider status
     } catch (err) {
       console.error("Transfer failed:", err);
       alert("Transfer failed. Please check the console for details.");

@@ -190,10 +190,7 @@ function ProviderDashboard() {
         </div>
         <div className="col-md-6">
           {showStatus && (
-            <ProviderStatus
-              providerStatus={providerStatus}
-              fetchProviderStatus={fetchProviderStatus}
-            />
+            <ProviderStatus/>
           )}
         </div>
       </div>
