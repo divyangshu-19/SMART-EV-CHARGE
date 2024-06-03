@@ -6,9 +6,9 @@ function ProviderStatus({ providerStatus, fetchProviderStatus }) {
   }, [fetchProviderStatus]);
 
   return (
-    <div className="d-flex justify-content-center mt-5">
-      <div className="card p-3" style={{ width: '18rem' , marginTop: '20px'}}>
-        <div className="card-body">
+    <div className="d-flex justify-content-center mt-5 ">
+      <div className="card p-3" style={{ width: '22rem' , marginTop: '20px', backgroundColor : '#D3D3D3'}}>
+        <div className="card-body p-3 bg-light rounded shadow-sm mb-3" style={{ color : 'white'}}>
           <h5 className="card-title text-left">Provider Current Status</h5>
           <p className="card-text text-left">Current Charge: {providerStatus.currentCharge}</p>
           <p className="card-text text-left">Selling Rate: {providerStatus.sellingRate}</p>

@@ -3,6 +3,7 @@ import useEth from "../../contexts/EthContext/useEth";
 // import NoticeNoArtifact from "../ProviderDashboard/NoticeNoArtifact";
 // import NoticeWrongNetwork from "../ProviderDashboard/NoticeWrongNetwork";
 import Web3 from "web3";
+import "./Pay.css";
 
 function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formData }) {
   const { state } = useEth();
@@ -18,7 +19,7 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
   const handleTransfer = async () => {
     setPaymentComplete(true);
     if (onProviderIndex === null) return;
-    
+
     const amountPaid = calculatedWattage * providerInfo.sellingPrice;
     if (!Web3.utils.isAddress(recipient)) {
       alert("Invalid recipient address");
@@ -60,10 +61,10 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
   //     // onPaymentComplete();
   //   }
   // }
-    
+
   return (
-    <div>
-      <h3>Payment Page</h3>
+    <div className="h-fit">
+      <h3 className="text-center">Payment Page</h3>
       <p>Provider: {providerInfo.name}</p>
       <p>Business: {providerInfo.businessName}</p>
       <p>Physical Address: {providerInfo.physicalAddress}</p>
@@ -71,25 +72,25 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
       <p>Selling Price: {providerInfo.sellingPrice} KW/Rs</p>
       <p>Total Amount Payable: {totalAmount} Ethers</p>
       <p>Recipient Address: {providerInfo.walletAddress}</p>
-      <button onClick={ handleTransfer }> Pay </button>
+      <button onClick={handleTransfer} className="btn btn-primary mt-2"> Pay </button>
       {/* <button onClick={() => alert("Proceed to Payment")}>Proceed to Payment</button> */}
       {/* <button onClick={onPaymentComplete}>Payment Complete</button> */}
       <div>
-      <br />
-      {paymentComplete && (
-        <div>
-          <h4>Payment successful!</h4>
-        </div>
-      )} <br></br>
-      {transactionHash && (
-        <div>
-          <p>Go to the charging location: {providerInfo.physicalAddress}</p>
-          <p>Transaction Hash: {transactionHash}</p>
-        </div>
-      )}
+        <br />
+        {paymentComplete && (
+          <div>
+            <h4>Payment successful!</h4>
+          </div>
+        )} <br></br>
+        {transactionHash && (
+          <div>
+            <h6>Go to the charging location: {providerInfo.physicalAddress}</h6>
+            <p>Transaction Hash: {transactionHash}</p>
+          </div>
+        )}
+      </div>
     </div>
-    </div>
-    
+
   );
 }
 export default PaymentPage;

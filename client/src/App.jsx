@@ -10,6 +10,7 @@ import ProviderLogin from "./components/ProviderLogin";
 import UserDashboard from "./components/UserDashboard";
 import ProviderDashboard from "./components/ProviderDashboard";
 import LandingPage from "./components/LandingPage";
+// import PaymentPage from "./components/UserDashboard/PaymentPage";
 
 function App() {
   const [selectedRole, setSelectedRole] = useState(null);
@@ -32,6 +33,7 @@ function App() {
         <Route path="/user-dashboard" element={<UserDashboard />} />
         <Route path="/provider-dashboard" element={<ProviderDashboard />} />
         <Route path="/register" element={<Register role={selectedRole} />} />
+        {/* <Route path="/payment-page" element={<PaymentPage />} /> */}
         <Route path="*" element={<LandingPage />} />
       </Routes>
       

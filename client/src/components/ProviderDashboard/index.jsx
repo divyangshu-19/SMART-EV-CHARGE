@@ -7,6 +7,7 @@ import NoticeWrongNetwork from "./NoticeWrongNetwork";
 import ProviderStatus from "./ProviderStatus";
 import ProviderArray from "./ProviderArray";
 
+
 const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
 const charging = ["5 kW - AC Level 1 (Slow Charging)", "10 kW - AC Level 2 (Fast Charging)", "50 kW - DC Fast Charging"]; // Add charging speed profiles
 
@@ -129,24 +130,24 @@ function ProviderDashboard() {
   const ProviderDashboardContent = (
 
     <>
-     <div className="container-fluid " style={{ backgroundColor : 'white'}}>
+     <div className="container-fluid ">
       <div className="row">
-        <div className="col-md-7">
-          <div className="card mb-3" style={{ paddingTop: '15px', marginTop: '20px', borderRadius : '20px', marginLeft: '15px' }}>
+        <div className="col-md-6">
+          <div className="card mb-3 p-3 fit-height-1 bg-light rounded shadow-sm mb-3" style={{ paddingTop: '15px', marginTop: '15px', borderRadius : '20px', marginLeft: '15px', backgroundColor: '#26334f' }}>
             <div className="card-header">
-              <h3 style={{ textAlign: 'center' }}> Provider Information</h3>
+              <h3 style={{ textAlign: 'center', color : 'white' }}> Provider Information</h3>
             </div>
-            <div className="card-body" style= {{ backgroundColor : 'white'}}>
+            <div className="card-body" style= {{ color : 'white'}}>
            
 
-              <form onSubmit={handleSubmit}  style={{color: 'black',  padding: '20px', marginTop: '20px' }}>
+              <form onSubmit={handleSubmit}  style={{color: 'white',  padding: '10px', marginTop: '5px' }}>
                 <div className="mb-3">
                   <label htmlFor="name" className="form-label">Name:</label>
-                  <input type="text" className="form-control  input-text" id="name" name="name" value={formData.name} onChange={handleChange} placeHolder="Enter Detail" required />
+                  <input type="text" className="form-control  input-text" id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Enter Detail" required />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="businessName" className="form-label">Business Name:</label>
-                  <input type="text" className="form-control input-text" id="businessName" name="businessName" placeHolder="Enter Detail" value={formData.businessName} onChange={handleChange} />
+                  <input type="text" className="form-control input-text" id="businessName" name="businessName" placeholder="Enter Detail" value={formData.businessName} onChange={handleChange} />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="area" className="form-label">Area/Region:</label>
@@ -159,11 +160,11 @@ function ProviderDashboard() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="availableElectricity" className="form-label">Available Electricity:</label>
-                  <input type="number" className="form-control input-text" id="availableElectricity" name="availableElectricity" placeHolder="Enter Detail" value={formData.availableElectricity} onChange={handleChange} required />
+                  <input type="number" className="form-control input-text" id="availableElectricity" name="availableElectricity" placeholder="Enter Detail" value={formData.availableElectricity} onChange={handleChange} required />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="sellingPrice" className="form-label">Selling Price:</label>
-                  <input type="number" className="form-control input-text" id="sellingPrice" name="sellingPrice" placeHolder="Enter Detail" value={formData.sellingPrice} onChange={handleChange} required />
+                  <input type="number" className="form-control input-text" id="sellingPrice" name="sellingPrice" placeholder="Enter Detail" value={formData.sellingPrice} onChange={handleChange} required />
                 </div>
                 <div className="mb-3">
                   <label htmlFor="chargingSpeed" className="form-label">Charging Speed:</label>
@@ -176,18 +177,18 @@ function ProviderDashboard() {
                 </div>
                 <div className="mb-3">
                   <label htmlFor="physicalAddress" className="form-label">Physical Address:</label>
-                  <input type="text" className="form-control input-text" id="physicalAddress" name="physicalAddress" placeHolder="Enter Detail" value={formData.physicalAddress} onChange={handleChange} required/>
+                  <input type="text" className="form-control input-text" id="physicalAddress" name="physicalAddress" placeholder="Enter Detail" value={formData.physicalAddress} onChange={handleChange} required/>
                 </div>
                 <div className="mb-3">
                   <label htmlFor="perks" className="form-label">Perks:</label>
-                  <input type="text" className="form-control input-text" id="perks" name="perks" placeHolder="Enter Detail" value={formData.perks} onChange={handleChange} />
+                  <input type="text" className="form-control input-text" id="perks" name="perks" placeholder="Enter Detail" value={formData.perks} onChange={handleChange} />
                 </div>
-                <button type="submit" className="btn" style={{ backgroundColor : 'purple', color : 'white'}}>Add Provider</button>
+                <button type="submit" className="btn" style={{ backgroundColor : '#216a94', color : 'white'}}>Add Provider</button>
               </form>
             </div>
           </div>
         </div>
-        <div className="col-md-5">
+        <div className="col-md-6">
           {showStatus && (
             <ProviderStatus
               providerStatus={providerStatus}
