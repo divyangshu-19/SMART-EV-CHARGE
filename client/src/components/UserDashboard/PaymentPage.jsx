@@ -8,6 +8,7 @@ import "./Pay.css";
 function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formData }) {
   const { state } = useEth();
 
+  const amtpayble =(providerInfo.sellingPrice * calculatedWattage .toString());
   const totalAmount = (providerInfo.sellingPrice * calculatedWattage * 0.0000031456118985072425).toFixed(10).toString(); // If we cosider real value then this will work.
   // const totalAmount = providerInfo.sellingPrice * calculatedWattage*0.00003; // If we make the trasaction visible by the amount then this will work.
 
@@ -70,7 +71,7 @@ function PaymentPage({ providerInfo, calculatedWattage, onProviderIndex, formDat
       <p>Physical Address: {providerInfo.physicalAddress}</p>
       <p>Total Electricity Required: {calculatedWattage} KW</p>
       <p>Selling Price: {providerInfo.sellingPrice} Rs/KW </p>
-      <p>Total Amount Payable: {totalAmount} Ethers</p>
+      <p>Total Amount Payable: {amtpayble} Rs = {totalAmount} Ethers</p>
       <p>Recipient Address: {providerInfo.walletAddress}</p>
       <button onClick={handleTransfer} className="btn btn-primary mt-2"> Pay </button>
       {/* <button onClick={() => alert("Proceed to Payment")}>Proceed to Payment</button> */}
