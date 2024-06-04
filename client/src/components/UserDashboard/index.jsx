@@ -163,7 +163,7 @@ function UserDashboard() {
                 </select>
               </div>
               <div className="mb-3">
-                <label>Buying Price:</label>
+                <label>Buying Price Per kWh:</label>
                 <input
                   type="number"
                   name="askingPrice"
