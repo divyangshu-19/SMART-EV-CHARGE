@@ -1,0 +1,44 @@
+/* .container {
+    margin-top: 10px;
+  }
+  
+  .card {
+    margin-top: 20px;
+  }
+  
+  .bg-light {
+    background-color: #f8f9fa !important;
+  }
+  
+  .shadow-sm {
+    box-shadow: 0 .125rem .25rem rgba(0,0,0,.075) !important;
+  }
+  
+  .p-3 {
+    padding: 1rem !important;
+  }
+  
+  .rounded {
+    border-radius: .25rem !important;
+  } */
+
+  .flex {
+    display: flex;
+  }
+
+  .flex-row {
+    flex-direction: row;
+  }
+
+  .gap-x-6 {
+    gap: 24px;
+  }
+
+  .h-fit {
+    max-height: fit-content;
+  }
+
+  .fit-height {
+    height: fit-content;
+  }
+  

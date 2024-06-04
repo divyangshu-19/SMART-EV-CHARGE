@@ -1,0 +1,32 @@
+.dummy-text {
+    background-color: rgba(0, 0, 0, 0.5); 
+    padding: 20px;
+    border-radius: 10px;
+    color:white;
+  }
+  
+
+  .home-page {
+    background-image: url('https://www.polytechnique-insights.com/wp-content/uploads/2023/09/adobestock_640039698-scaled.jpeg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-align: center;
+    /* background-size: cover;
+  background-position: center;
+  height: calc(100vh - 56px); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  text-align: center; */
+  }
+
+  .input-text{
+    border: 1px solid black;
+
+  }

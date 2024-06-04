@@ -10,11 +10,26 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, "build"),
   },
-  resolve: { extensions },
+  resolve: { 
+    extensions ,
+    fallback: {
+      "path": require.resolve("path-browserify"),
+      "fs": false,
+      "stream": require.resolve("stream-browserify"),
+      "querystring": require.resolve("querystring-es3"),
+      "http": require.resolve("stream-http"),
+      "net": require.resolve("net-browserify"),
+      "zlib": require.resolve("browserify-zlib"),
+      "crypto": require.resolve("crypto-browserify")
+      
+    }
+
+  },
   devServer: {
     client: {
       overlay: false,
     },
+    historyApiFallback: true, 
   },
   module: {
     rules: [
