@@ -146,7 +146,7 @@ function ProviderDashboard() {
                   <input type="text" className="form-control  input-text" id="name" name="name" value={formData.name} onChange={handleChange} placeholder="Enter Detail" required />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="businessName" className="form-label">Business Name:</label>
+                  <label htmlFor="businessName" className="form-label">Residence or Business Name:</label>
                   <input type="text" className="form-control input-text" id="businessName" name="businessName" placeholder="Enter Detail" value={formData.businessName} onChange={handleChange} />
                 </div>
                 <div className="mb-3">
@@ -159,11 +159,11 @@ function ProviderDashboard() {
                   </select>
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="availableElectricity" className="form-label">Available Electricity:</label>
+                  <label htmlFor="availableElectricity" className="form-label">Available Electricity in kWh:</label>
                   <input type="number" className="form-control input-text" id="availableElectricity" name="availableElectricity" placeholder="Enter Detail" value={formData.availableElectricity} onChange={handleChange} required />
                 </div>
                 <div className="mb-3">
-                  <label htmlFor="sellingPrice" className="form-label">Selling Price:</label>
+                  <label htmlFor="sellingPrice" className="form-label">Selling Price per kWh:</label>
                   <input type="number" className="form-control input-text" id="sellingPrice" name="sellingPrice" placeholder="Enter Detail" value={formData.sellingPrice} onChange={handleChange} required />
                 </div>
                 <div className="mb-3">
@@ -190,10 +190,7 @@ function ProviderDashboard() {
         </div>
         <div className="col-md-6">
           {showStatus && (
-            <ProviderStatus
-              providerStatus={providerStatus}
-              fetchProviderStatus={fetchProviderStatus}
-            />
+            <ProviderStatus/>
           )}
         </div>
       </div>
