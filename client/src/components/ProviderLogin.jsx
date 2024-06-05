@@ -98,6 +98,7 @@ const ProviderLogin = ({ role }) => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="form-control"
+                placeholder='Enter Email'
               />
             </div>
             <div className="form-group">
@@ -109,6 +110,7 @@ const ProviderLogin = ({ role }) => {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="form-control"
+                placeholder='Enter Password'
               />
             </div>
             {errorMessage && (
@@ -116,7 +118,7 @@ const ProviderLogin = ({ role }) => {
             )}
             <button type="submit" disabled={isSigningIn} className="btn btn-primary">Login</button>
           </form>
-          <span className="form-text">Don't have an account? <button onClick={() => navigate('/register-provider')} className="btn-register">Register</button></span>
+          <span className="form-text">Don't have an account? <button onClick={() => navigate('/register-provider')} className="btn-register fw-bold">Register</button></span>
           <div className="divider">
             <div className="divider-line"></div>
             <div className="divider-text">OR</div>

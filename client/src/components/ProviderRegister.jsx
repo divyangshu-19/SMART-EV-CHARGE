@@ -87,6 +87,7 @@ function ProviderRegister ({ role }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="form-control"
+                    placeholder='Enter Email'
                   />
                 </div>
                 <div className="form-group">
@@ -98,6 +99,7 @@ function ProviderRegister ({ role }) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="form-control"
+                    placeholder='Enter Password'
                   />
                 </div>
                 <div className="form-group">
@@ -109,12 +111,13 @@ function ProviderRegister ({ role }) {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className="form-control"
+                    placeholder='Confirm Password'
                   />
                 </div>
                 {errorMessage && (
                   <span className='text-red-600 font-bold'>{errorMessage}</span>
                 )}
-                <button type="submit" disabled={isRegistering} className="btn btn-primary">Register</button>
+                <button type="submit" disabled={isRegistering} className="btn btn-primary " style={{ color : 'black'}}>Register</button>
               </form>
               <button onClick={() => navigate('/provider-login')} className="btn btn-link">Back to Login</button>
         </div>

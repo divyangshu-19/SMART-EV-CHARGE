@@ -87,6 +87,7 @@ function ConsumerRegister ({ role }) {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     className="form-control"
+                    placeholder='Enter Email'
                   />
                 </div>
                 <div className="form-group">
@@ -98,6 +99,7 @@ function ConsumerRegister ({ role }) {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="form-control"
+                    placeholder='Enter Password'
                   />
                 </div>
                 <div className="form-group">
@@ -109,6 +111,7 @@ function ConsumerRegister ({ role }) {
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     className="form-control"
+                    placeholder='Confirm Password'
                   />
                 </div>
                 {errorMessage && (
