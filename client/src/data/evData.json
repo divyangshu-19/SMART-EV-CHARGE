@@ -4,15 +4,15 @@
       "capacity": 100
     },
     {
-      "model": "Nissan Leaf",
-      "capacity": 40
+      "model": "Hyundai Kona",
+      "capacity": 200
     },
     {
-      "model": "Chevrolet Bolt",
-      "capacity": 60
+      "model": "BMW iX",
+      "capacity": 200
     },
     {
-        "model": "tata nexon",
+        "model": "Tata Nexon EV",
         "capacity": 100
       }
 

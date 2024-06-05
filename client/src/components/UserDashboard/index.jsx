@@ -8,7 +8,7 @@ import evData from "../../data/evData.json"; // Import the EV data
 import PaymentPage from "./PaymentPage"; // Import the PaymentPage component
 // import { Router } from "express";
 
-const regions = ["Region1", "Region2", "Region3"]; // Add more regions as needed
+const regions = ["Garia", "Jadavpur", "Kasba"]; // Add more regions as needed
 const charging = ["5 kW - AC Level 1 (Slow Charging)", "10 kW - AC Level 2 (Fast Charging)", "50 kW - DC Fast Charging"]; // Add charging speed profiles
 
 function UserDashboard() {
