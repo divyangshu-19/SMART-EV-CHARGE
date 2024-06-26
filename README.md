@@ -1,9 +1,9 @@
 
 # Smart EV Charge
 
-This project is a decentralized peer-to-peer (P2P) web application which provides a platform to connects the **USERS** - EV owners looking for charging stations
+This project is a decentralized peer-to-peer (P2P) web application which provides a platform to connect the **USERS** - EV owners looking for charging stations
 and **PROVIDERS** - individuals or businesses offering EV charging services
-through a transparent a system powered by blockchain and facilitated by Smart Contracts.
+through a transparent system powered by blockchain and facilitated by Smart Contracts.
 
 
 
