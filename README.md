@@ -1,8 +1,10 @@
+
 # Smart EV Charge
 
 *MAN HELPS MAN NO MIDDLEMAN*
 
 This project is a decentralized peer-to-peer (P2P) web application which provides a platform to connect the 
+ 
 
 **USERS** - EV owners looking for 
 charging stations
@@ -60,18 +62,20 @@ Go to the project directory
 ```
 
 
-## Future fixes
+## Future & fixes
 
-#### Currently, we don't have a decentralized map & location service for distance measurement right now.
+- #### Currently, we don't have a decentralized map & location service for distance measurement right now.
 
 Right now the project uses region lists which is dumb and inefficient. waiting for MapMetrics and HiveMapper to get to the point where we can integrate it or use an open-source alternative like OpenStreetMap (OSM).
 
-#### Time management work in progress.
+- #### Time management work in progress.
 
 Abstaining the providers from taking part in the matching while the previous user is still charging will create scheduling issues.
 
 Trying to implement scheduling using Time Lock or Block Timestamp.
 
-#### Current authentication is powered by Firebase which is web2.
+- #### Current authentication is powered by Firebase which is web2.
 
-#### The UI sucks, also not responsive.
+- #### The UI sucks.
+
+- #### IoT integration to fetch charging, payment and other stats.
